@@ -37,7 +37,7 @@
         <nekohtml.version>1.9.22</nekohtml.version>
         <fastjson.version>1.2.68</fastjson.version>
         <servlet.version>2.5</servlet.version>
-        <oauth2.version>2.3.5.RELEASE</oauth2.version>
+        <oauth2.version>2.3.6.RELEASE</oauth2.version>
         <jwt.version>1.0.10.RELEASE</jwt.version>
         <hikaricp.version>3.4.5</hikaricp.version>
         <swagger2.version>2.9.2</swagger2.version>
