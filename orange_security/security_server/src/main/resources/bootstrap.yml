@@ -1,0 +1,70 @@
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+  instance:
+    instance-id: orange-security-server   #自定义服务名称信息
+    prefer-ip-address: true     #访问路径可以显示IP地址
+
+server:
+  servlet:
+    encoding:
+      force: true
+spring:
+  redis:
+    host: 139.159.230.104
+    password: g1008611m@
+    port: 6379
+    jedis:
+      pool:
+        max-idle: 100
+        min-idle: 1
+        max-active: 1000
+        max-wait: -1
+    database: 1
+    timeout: 3000
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    username: admin
+    password: Gm1008611@
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 600000
+      maximum-pool-size: 10
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+    url: jdbc:mysql://120.79.162.249:3306/wangke
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+  main:
+    allow-bean-definition-overriding: true
+  resources:
+    add-mappings: false
+  profiles:
+    active: dev
+  application:
+    name: orange-security-server
+
+app:
+  id: SampleApp
+apollo:
+  bootstrap:
+    enabled: true
+
+  meta: http://orange.linignan.cn:8080
+
+env: dev
+
+logging:
+  level:
+    com.guangming.mapper: debug
+info:
+  app.name: orange
+  company.name: www.orangewangke.cn
+  build.artifactId: @project.artifactId@
+  build.version: @project.version@

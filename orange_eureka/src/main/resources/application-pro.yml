@@ -1,0 +1,17 @@
+server:
+  port: 8001
+
+#配置双注册中心
+eureka:
+  instance:
+    #自定义服务名称信息
+    instance-id: orange-eureka-01
+    #主机名
+    hostname: master.orangewangke.cn
+    #instance-id: orange-eureka-02
+    #hostname: slave.orangewangke.cn
+    appname: orange-eureka-server
+  client:
+    serviceUrl:
+      defaultZone: http://admin:1950661299orange.com@slave.orangewangke.cn:8001/eureka/
+      # defaultZone: http://admin:1950661299orange.com@master.orangewangke.cn:8001/eureka/
