@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: orange-provider-upload
+  servlet:
+    multipart:
+      enabled: true
+      #单文件限制大小
+      max-file-size: 4MB
+      #总文件限制的大小
+      max-request-size: 20MB
+  mvc:
+    throw-exception-if-no-handler-found: true
+  redis:
+    host: 139.159.230.104
+    password: g1008611m@
+    port: 6379
+    jedis:
+      pool:
+        max-idle: 100
+        min-idle: 1
+        max-active: 1000
+        max-wait: -1
+    database: 1
+    timeout: 5000
+  resources:
+    add-mappings: false
+server:
+  port: 8005
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:1950661299orange.com@master.eureka.com:8001/eureka/,http://admin:1950661299orange.com@slave.eureka.com:8002/eureka/
+    healthcheck:
+      enabled: true
+  instance:
+    instance-id: orange-provider-upload    #自定义服务名称信息
+    prefer-ip-address: true     #访问路径可以显示IP地址
+
+info:
+  app.name: orange
+  company.name: wangke.orangewangke.cn
+  build.artifactId: @project.artifactId@
+  build.version: @project.version@
+
+app:
+  id: SampleApp
+
+apollo:
+  bootstrap:
+    enabled: true
+  meta: http://orange.linignan.cn:8080
+
+env: dev
+
+logging:
+  level:
+    com.guangming: debug
+

@@ -19,7 +19,7 @@ public enum ResultEnum {
 
 
     SAVE_SUCCESS(1, "添加成功"),
-    UPDATE_SUCCESS(1, "修改成功"),
+    UPDATE_SUCCESS(1, "更新成功"),
     DELETE_SUCCESS(1, "删除成功"),
     QUERY_SUCCESS(1, "查询成功"),
 
@@ -30,6 +30,7 @@ public enum ResultEnum {
 
     UPLOAD_IMG_SUCCESS(1, "上传图片成功"),
     UPLOAD_IMG_FAIL(0, "上传图片失败"),
+    UPLOAD_IMG_WARN(-1, "仅支持png|jpg格式"),
 
     MESSAGE_NOT_READABLE(400, "参数格式错误(缺少分隔符或结束标签)"),
     TYPE_MIS_MATCH(400, "参数类型不匹配"),

@@ -8,15 +8,15 @@ import java.util.Date;
 
 public class Orders implements Serializable {
     //订单编号
-    private String _id;
+    private String id;
     //用户编号
     private String user_id;
     //产品编号
     private String product_id;
     //产品数量
-    private Integer _nums;
+    private Integer nums;
     //价格
-    private BigDecimal _price;
+    private BigDecimal price;
     //折扣
     private BigDecimal discount;
     //实际价格
@@ -28,14 +28,14 @@ public class Orders implements Serializable {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date last_time;
     //订单状态
-    private Integer _status;
+    private Integer status;
 
     public String getId() {
-        return _id;
+        return id;
     }
 
     public void setId(String id) {
-        this._id = id == null ? null : id.trim();
+        this.id = id == null ? null : id.trim();
     }
 
     public String getUserId() {
@@ -55,19 +55,19 @@ public class Orders implements Serializable {
     }
 
     public Integer getNums() {
-        return _nums;
+        return nums;
     }
 
-    public void setNums(Integer _nums) {
-        this._nums = _nums;
+    public void setNums(Integer nums) {
+        this.nums = nums;
     }
 
     public BigDecimal get_price() {
-        return _price;
+        return price;
     }
 
-    public void set_price(BigDecimal _price) {
-        this._price = _price;
+    public void set_price(BigDecimal price) {
+        this.price = price;
     }
 
     public BigDecimal getDiscount() {
@@ -102,11 +102,11 @@ public class Orders implements Serializable {
         this.last_time = last_time;
     }
 
-    public Integer get_status() {
-        return _status;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void set_status(Integer _status) {
-        this._status = _status;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

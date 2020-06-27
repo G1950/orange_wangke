@@ -10,8 +10,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>orange_provider</artifactId>
+    <packaging>pom</packaging>
 
     <build>
         <finalName>orange_provider</finalName>
     </build>
+    <modules>
+        <module>process_pay</module>
+        <module>process_product</module>
+        <module>process_user</module>
+        <module>process_upload</module>
+        <module>process_oauth</module>
+    </modules>
 </project>

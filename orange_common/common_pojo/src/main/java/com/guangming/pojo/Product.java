@@ -16,6 +16,16 @@ public class Product implements Serializable {
     private String desc;
     //产品图片
     private String img_url;
+    //产品付费类型 1为包年，0为包月，-1为按次数
+    private Integer type;
+    //查题次数，按次数充值有效
+    private Integer tm_nums;
+    //查题按月，月数
+    private Integer tm_months;
+    //产品状态,1为在售，0为下架
+    private Integer status;
+    //库存
+    private Integer nums;
 
     public String getId() {
         return id;
@@ -63,5 +73,59 @@ public class Product implements Serializable {
 
     public void setImg_url(String img_url) {
         this.img_url = img_url == null ? null : img_url.trim();
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getTm_nums() {
+        return tm_nums;
+    }
+
+    public void setTm_nums(Integer tm_nums) {
+        this.tm_nums = tm_nums;
+    }
+
+    public Integer getTm_months() {
+        return tm_months;
+    }
+
+    public void setTm_months(Integer tm_months) {
+        this.tm_months = tm_months;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getNums() {
+        return nums;
+    }
+
+    public void setNums(Integer nums) {
+        this.nums = nums;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", discount=" + discount +
+                ", desc='" + desc + '\'' +
+                ", img_url='" + img_url + '\'' +
+                ", status=" + status +
+                ", nums=" + nums +
+                '}';
     }
 }

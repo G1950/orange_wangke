@@ -16,6 +16,7 @@ public class MyTokenExceptionEntryPoint extends OAuth2AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException {
         httpServletResponse.setContentType("application/json;charset=UTF-8");
+        e.printStackTrace();
         if (httpServletRequest.getHeader("Authorization") == null)
             httpServletResponse.getWriter().write(JSONObject.toJSONString(Result.build(ResultEnum.UNAUTHORIZED_ACCESS)));
         else

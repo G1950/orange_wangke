@@ -30,7 +30,7 @@ public class ResourceConfiguration extends ResourceServerConfigurerAdapter {
     @Resource
     private MyTokenExceptionEntryPoint tokenExceptionEntryPoint; /*自定义权限异常*/
     @Resource
-    private RedisConnectionFactory redisConnectionFactory;
+    private RedisConnectionFactory redisConnectionFactory; /*redis连接*/
 
     //资源服务配置
     @Override
@@ -45,16 +45,13 @@ public class ResourceConfiguration extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         // @formatter:off
-        // 我们这里放开/order/*的请求，以/order/*开头的请求不用认证
+        // 放开请求不用认证
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/actuator/**", "/error", "/sign", "/", "/webjars/**", "/api/**",
-                "/resources/**",
+                .authorizeRequests().antMatchers("/actuator/**", "/error", "/user/login", "/", "/webjars/**", "/resources/**",
                 "/swagger-ui.html",
                 "/swagger-resources/**",
                 "/v2/api-docs",
-                "/layui/**",
-                "/favicon.ico",
-                "/search/cx/**", "/user/sign", "/code", "/register", "/img", "/signout", "/user/find/user/*", "/users/*", "/user/save/user").permitAll().and().authorizeRequests()
+                "/search/cx/**", "/code", "/user/register", "/user/logout").permitAll().and().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated();
         http.headers()
                 .frameOptions().sameOrigin()

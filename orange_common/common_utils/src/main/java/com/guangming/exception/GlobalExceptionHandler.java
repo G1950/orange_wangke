@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 @RestControllerAdvice
@@ -65,6 +67,14 @@ public class GlobalExceptionHandler {
         return Result.build(ResultEnum.NO_HANDLER_FOUND);
     }
 
+    //404页面未找到
+    @ExceptionHandler({RequestRejectedException.class})
+    @ResponseBody
+    public Result requestNotAvailable(RequestRejectedException ex) {
+        log.error(ex.getMessage());
+        return Result.build(ResultEnum.NO_HANDLER_FOUND);
+    }
+
     //403禁止访问
     @ExceptionHandler({HttpClientErrorException.Forbidden.class})
     @ResponseBody
@@ -102,6 +112,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({MissingServletRequestParameterException.class})
     @ResponseBody
     public Result requestMissingServletRequest(MissingServletRequestParameterException ex) {
+        log.error(ex.getMessage());
+        return Result.build(ResultEnum.MISSING_PARAMETER);
+    }
+
+    //400缺少参数
+    @ExceptionHandler({MissingServletRequestPartException.class})
+    @ResponseBody
+    public Result requestMissingServletRequest(MissingServletRequestPartException ex) {
         log.error(ex.getMessage());
         return Result.build(ResultEnum.MISSING_PARAMETER);
     }
