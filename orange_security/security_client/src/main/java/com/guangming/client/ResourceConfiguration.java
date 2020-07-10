@@ -46,12 +46,17 @@ public class ResourceConfiguration extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         // 放开请求不用认证
+//        http.csrf().disable()
+//                .authorizeRequests().antMatchers("/actuator/**", "/error", "/user/login", "/", "/webjars/**", "/resources/**",
+//                "/swagger-ui.html",
+//                "/swagger-resources/**",
+//                "/v2/api-docs",
+//                "/search/cx/**","/code", "/user/register", "/user/logout","/pay/**","/favicon.ico").permitAll().and().authorizeRequests()
+//                .antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated();
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/actuator/**", "/error", "/user/login", "/", "/webjars/**", "/resources/**",
-                "/swagger-ui.html",
-                "/swagger-resources/**",
-                "/v2/api-docs",
-                "/search/cx/**", "/code", "/user/register", "/user/logout").permitAll().and().authorizeRequests()
+                .authorizeRequests().antMatchers("/actuator/**", "/error","/",
+                "/search/cx/**" ,"/pay/**","/favicon.ico","/images/**",
+                "/layui/**","/layuiadmin/**","/me/**","/tm/**","/login","/register","/logout","/forget","/captcha").permitAll().and().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated();
         http.headers()
                 .frameOptions().sameOrigin()

@@ -16,7 +16,7 @@ public class UploadController {
 
     //上传图片
     @PostMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Result uploadAvatar(@RequestPart(value = "file") MultipartFile file, @RequestParam("id") String id) {
-        return uploadService.uploadAvatar(file, id);
+    public Result uploadAvatar(@RequestPart(value="file") MultipartFile file, @RequestParam("id") String id) {
+        return uploadService.uploadAvatar(file,id);
     }
 }

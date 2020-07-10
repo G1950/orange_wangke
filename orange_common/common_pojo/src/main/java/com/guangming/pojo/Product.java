@@ -75,13 +75,9 @@ public class Product implements Serializable {
         this.img_url = img_url == null ? null : img_url.trim();
     }
 
-    public Integer getType() {
-        return type;
-    }
+    public Integer getType() { return type; }
 
-    public void setType(Integer type) {
-        this.type = type;
-    }
+    public void setType(Integer type) { this.type = type; }
 
     public Integer getTm_nums() {
         return tm_nums;
@@ -107,13 +103,9 @@ public class Product implements Serializable {
         this.status = status;
     }
 
-    public Integer getNums() {
-        return nums;
-    }
+    public Integer getNums() { return nums; }
 
-    public void setNums(Integer nums) {
-        this.nums = nums;
-    }
+    public void setNums(Integer nums) { this.nums = nums; }
 
     @Override
     public String toString() {

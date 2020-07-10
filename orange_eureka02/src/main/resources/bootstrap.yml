@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: orange-eureka-server
+  profiles:
+    active: dev
+  #设置eurekaServer的登录密码
+  security:
+    user:
+      name: admin  # 用户名
+      password: 1950661299orange.com   # 用户密码
+      roles: SUPERUSER    #角色

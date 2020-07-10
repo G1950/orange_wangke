@@ -1,0 +1,80 @@
+server:
+  servlet:
+    encoding:
+      force: true
+spring:
+  data:
+    solr:
+      host: http://gm:Gm1950661299@solr.linignan.cn:8983/solr/wangke_db
+  application:
+    name: orange-provider-search
+  profiles:
+    active: dev
+  redis:
+    host: 139.159.230.104
+    password: g1008611m@
+    port: 6379
+    jedis:
+      pool:
+        max-idle: 100
+        min-idle: 1
+        max-active: 1000
+        max-wait: -1
+    database: 1
+    timeout: 5000
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://120.79.162.249:3306/wangke
+    username: admin
+    password: Gm1008611@
+    name: provider-product
+    #使用druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    #druid相关配置
+    #druid相关配置
+    druid:
+      #监控统计拦截的filters
+      filters: stat
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      connection-properties: druid.stat.mergeSql:true;druid.stat.slowSqlMillis:5000
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+  instance:
+    instance-id: orange-provider-search    #自定义服务名称信息
+    prefer-ip-address: true     #访问路径可以显示IP地址
+
+info:
+  app.name: orange
+  company.name: www.orangewangke.cn
+  build.artifactId: @project.artifactId@
+  build.version: @project.version@
+
+app:
+  id: SampleApp
+
+apollo:
+  bootstrap:
+    enabled: true
+  meta: http://orange.linignan.cn:8080
+
+
+env: dev
+logging:
+  level:
+    com.guangming: debug

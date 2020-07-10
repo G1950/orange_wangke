@@ -1,30 +1,43 @@
 package com.guangming.service;
 
 
+import com.guangming.pojo.Question;
 import com.guangming.service.impl.ISolrFeignServiceImpl;
 import com.guangming.utils.Result;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-@FeignClient(value = "ORANGE-PROVIDER-SOLR", fallbackFactory = ISolrFeignServiceImpl.class)
+import java.util.List;
+
+@FeignClient(value = "ORANGE-PROVIDER-SEARCH", fallbackFactory = ISolrFeignServiceImpl.class)
 public interface ISolrFeignService {
 
-    //post请求查询
-    @PostMapping("/api/cx")
-    Result postSearch(@RequestParam("problem") String problem, @RequestParam("rows") Integer rows);
+    //添加题目
+    @PostMapping("/tm")
+    Result save(@RequestBody List<Question> questions);
 
-    //get请求查询
-    @GetMapping("/api/cx/{problem}")
-    Result getSearch(@PathVariable("problem") String problem);
 
-    //手动更新索引
-    @PostMapping("/api/index")
-    Result quartzUpdate(@RequestParam("solrType") String solrType);
+    //查询题目
+    @GetMapping("/tm/type/{types}")
+    Result query(@PathVariable("types") Integer type, Question question);
 
-    //获取索引数量
-    @GetMapping("/api/count")
-    Result getCount();
+    //修改题目
+    @PutMapping("/tm")
+    Result update(@RequestBody List<Question> questions);
+
+    //删除题目
+    @DeleteMapping("/tm")
+    Result delete(@RequestBody List<Integer> id);
+
+    //通过索引查询题目
+    @GetMapping("/tm/index/{tm}")
+    Result indexQuery(@PathVariable("tm") String tm);
+
+    //更新索引,全量更新，增量更新
+    @GetMapping("/tm/index/types/{types}")
+    Result indexUpdate(@PathVariable("types") String type);
+
+    //查询索引数量
+    @GetMapping("/tm/index/count")
+    Result indexAccount();
 }

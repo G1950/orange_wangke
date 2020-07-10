@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.guangming.exception.MyOauthWebResponseExceptionTranslator;
 import com.guangming.pojo.User;
 import com.guangming.service.IOauthService;
+import com.guangming.service.impl.MyUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -36,6 +37,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     RedisConnectionFactory redisConnectionFactory;
 
     @Resource
+    private MyUserDetailsService userDetailsService;
+
+    @Resource
     private IOauthService oauthService;
     @Resource
     private DataSource dataSource;
@@ -56,6 +60,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.accessTokenConverter(accessTokenConverter());
         endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager);
+        endpoints.userDetailsService(userDetailsService);
         endpoints.exceptionTranslator(webResponseExceptionTranslator);//认证异常处理器
     }
 

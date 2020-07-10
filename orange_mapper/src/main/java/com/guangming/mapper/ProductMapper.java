@@ -21,8 +21,8 @@ public interface ProductMapper {
             "where 1=1 " +
             "<when test='product.id!=null and product.id!=\"\"'>and id=#{product.id} </when>" +
             "<when test='product.name!=null and product.name!=\"\"'>and name=#{product.name} </when>" +
-            "<when test='product.price!=null'>and product.price=#{product.price} </when>" +
-            "<when test='product.discount!=null'>and product.discount=#{product.discount} </when>" +
+            "<when test='product.price!=null'>and price=#{product.price} </when>" +
+            "<when test='product.discount!=null'>and discount=#{product.discount} </when>" +
             "<when test='product.desc!=null and product.desc!=\"\"'>and desc=#{product.desc} </when>" +
             "<when test='product.status!=null'>and status=#{product.status} </when>" +
             "</script>")
@@ -54,21 +54,17 @@ public interface ProductMapper {
     void update(@Param("product") Product product);
 
     @Update("<script>" +
-            "update product set nums=nums-#{nums}" +
+            "update product set nums=nums-#{nums} " +
             "where id=#{id}" +
             "</script>")
-    void updateById(@Param("id") String id, @Param("nums") Integer nums);
+    void updateById(@Param("id") String  id,@Param("nums") Integer nums);
 
     @Update("<script> update product " +
             "set status=0 " +
             "where id in" +
-            "<foreach collection ='ids' item ='items' separator=',' open='(' close=')'  > " +
+            "<foreach collection ='id' item ='items' separator=',' open='(' close=')'  > " +
             "#{items}" +
             "</foreach>" +
             "</script>")
-    void delete(@Param("ids") List<String> id);
-
-    @Update("update product set status=0 where id=#{id}")
-    void deleteById(@Param("id") String id);
-
+    void deleteById(@Param("id") List<String> id);
 }

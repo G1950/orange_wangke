@@ -1,0 +1,6 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:1950661299orange.com@master.eureka.com:8760/eureka/,http://admin:1950661299orange.com@slave1.eureka.com:8761/eureka/
+server:
+  port: 8006

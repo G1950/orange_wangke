@@ -8,7 +8,8 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>orange_eureka</module>
+        <module>orange_eureka01</module>
+        <module>orange_eureka02</module>
         <module>orange_common</module>
         <module>orange_mapper</module>
         <module>orange_interface</module>

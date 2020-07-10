@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.guangming.pojo.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -16,6 +17,7 @@ import java.nio.charset.StandardCharsets;
  * @Date 2020/6/24/024 15:50
  * @Version 1.0
  **/
+@Slf4j
 public class AuthUtils {
 
     public static User getReqUser(String header) {
@@ -32,6 +34,7 @@ public class AuthUtils {
             //解密
             claims = Jwts.parser().setSigningKey("SigningKey".getBytes(StandardCharsets.UTF_8)).parseClaimsJws(token).getBody();
         } catch (Exception e) {
+            log.error("获取用户信息异常："+e.getMessage());
             return null;
         }
         // 拿到当前用户，返回用户信息

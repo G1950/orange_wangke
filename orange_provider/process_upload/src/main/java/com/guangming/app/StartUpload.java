@@ -12,6 +12,6 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 @EnableHystrix
 public class StartUpload {
     public static void main(String[] args) {
-        SpringApplication.run(StartUpload.class, args);
+        SpringApplication.run(StartUpload.class,args);
     }
 }

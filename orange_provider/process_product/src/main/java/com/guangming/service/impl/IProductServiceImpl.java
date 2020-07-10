@@ -69,7 +69,7 @@ public class IProductServiceImpl implements IProductService {
         try {
             List<Product> list = new ArrayList<>();
             for (Product product : products) {
-                product.setId(String.valueOf(SnowFlake.nextId()));
+                product.setId("product_"+String.valueOf(SnowFlake.nextId()));
                 list.add(product);
             }
             productMapper.save(list);
@@ -100,6 +100,9 @@ public class IProductServiceImpl implements IProductService {
     @Override
     public Result updateById(String id, Integer nums) {
         try {
+            Product product = productMapper.queryById(id);
+            if (product.getNums() < nums)
+                return Result.build(ResultEnum.PRODUCT_NOT_ENOUGH);
             productMapper.updateById(id, nums);
             log.info("更新成功");
             return Result.build(ResultEnum.UPDATE_SUCCESS);
@@ -111,20 +114,7 @@ public class IProductServiceImpl implements IProductService {
 
     @Transactional
     @Override
-    public Result delete(List<String> id) {
-        try {
-            productMapper.delete(id);
-            log.info("删除成功");
-            return Result.build(ResultEnum.DELETE_SUCCESS);
-        } catch (Exception e) {
-            log.error("删除失败：" + e.getMessage());
-            return Result.build(ResultEnum.DELETE_ERROR);
-        }
-    }
-
-    @Transactional
-    @Override
-    public Result delete(String id) {
+    public Result deleteById(List<String> id) {
         try {
             productMapper.deleteById(id);
             log.info("删除成功");
@@ -134,4 +124,5 @@ public class IProductServiceImpl implements IProductService {
             return Result.build(ResultEnum.DELETE_ERROR);
         }
     }
+
 }

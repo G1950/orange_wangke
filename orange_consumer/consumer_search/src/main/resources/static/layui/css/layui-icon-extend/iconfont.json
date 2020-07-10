@@ -1,0 +1,44 @@
+{
+  "id": "1602436",
+  "name": "layui-icon-extend",
+  "font_family": "iconextend",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "749770",
+      "name": "注册",
+      "font_class": "register",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "2130778",
+      "name": "个人中心_普通用户",
+      "font_class": "general",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "2471393",
+      "name": "忘记密码",
+      "font_class": "forget",
+      "unicode": "e67d",
+      "unicode_decimal": 59005
+    },
+    {
+      "icon_id": "2941129",
+      "name": "问号",
+      "font_class": "wenhao",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "8007566",
+      "name": "开发者",
+      "font_class": "dev",
+      "unicode": "e6f3",
+      "unicode_decimal": 59123
+    }
+  ]
+}

@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
-
 @Slf4j
 @Service
 public class IUploadServiceImpl implements IUploadService {
@@ -26,7 +25,8 @@ public class IUploadServiceImpl implements IUploadService {
         String fileName;
         try {
             suffix = suffix.toLowerCase();
-            if (!(suffix.equals(".png") || suffix.equals(".jpg") || suffix.equals(".jpeg"))) {
+            if (!(suffix.equals(".png") || suffix.equals(".jpg") || suffix.equals(".jpeg")))
+            {
                 log.error("仅支持png|jpg格式图片");
                 return Result.build(ResultEnum.UPLOAD_IMG_WARN);
             }
@@ -36,7 +36,8 @@ public class IUploadServiceImpl implements IUploadService {
             if (!dir.exists()) {
                 result = dir.mkdirs();
             }
-            if (!result) {
+            if (!result)
+            {
                 log.error("目录创建失败");
                 return Result.build(ResultEnum.UPLOAD_IMG_FAIL);
             }
@@ -46,7 +47,7 @@ public class IUploadServiceImpl implements IUploadService {
             log.info("图片上传成功");
             return Result.build(ResultEnum.UPLOAD_IMG_SUCCESS, baseUrl + "/" + id + "/" + fileName);
         } catch (IOException e) {
-            log.error("图片上传失败：" + e.getMessage());
+            log.error("图片上传失败："+e.getMessage());
             return Result.build(ResultEnum.UPLOAD_IMG_FAIL);
         }
     }

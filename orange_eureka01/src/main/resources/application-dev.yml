@@ -1,0 +1,12 @@
+server:
+  port: 8001
+
+#配置双注册中心
+eureka:
+  instance:
+    instance-id: orange-eureka-01
+    hostname: master.eureka.com
+    appname: orange-eureka-server
+  client:
+    serviceUrl:
+      defaultZone: http://admin:1950661299orange.com@slave.eureka.com:8002/eureka/

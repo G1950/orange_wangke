@@ -21,5 +21,6 @@
         <module>process_user</module>
         <module>process_upload</module>
         <module>process_oauth</module>
+        <module>process_search</module>
     </modules>
 </project>

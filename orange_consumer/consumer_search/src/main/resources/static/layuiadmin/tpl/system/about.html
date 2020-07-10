@@ -1,0 +1,34 @@
+ <script>
+layui.use(['laydate','layer','element'], function(){
+  var laydate = layui.laydate //日期
+  ,layer = layui.layer //弹层
+  ,element = layui.element //元素操作
+  
+  //向世界问个好
+  layer.msg('Hello World');
+  
+ 
+   //将日期直接嵌套在指定容器中
+  var dateIns = laydate.render({
+    elem: '#laydateDemo'
+   ,position: 'static'
+    ,calendar: true //是否开启公历重要节日
+    ,btns:['clear','now','close']//工具按钮 默认值['clear', 'now', 'confirm']
+    ,mark: { //标记重要日子
+      '0-10-14': '生日'
+      ,'2018-08-28': '新版'
+      ,'2018-10-08': '神秘'
+    } 
+    ,done: function(value, date, endDate){
+      if(date.year == 2017 && date.month == 11 && date.date == 30){
+        dateIns.hint('一不小心就月底了呢');
+      }
+      layer.close();
+    }
+    ,change: function(value, date, endDate){
+      layer.msg(value)
+    }
+  });
+});
+</script>
+ <div id="laydateDemo"></div>

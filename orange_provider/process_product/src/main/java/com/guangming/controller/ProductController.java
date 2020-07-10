@@ -44,22 +44,16 @@ public class ProductController {
     public Result updateProducts(@RequestBody List<Product> products) {
         return productService.update(products);
     }
-
-    //更新产品
+    //更新产品库存
     @PutMapping("/products/{id}/{nums}")
-    public Result updateProducts(@PathVariable("id") String id, @PathVariable("nums") Integer nums) {
-        return productService.updateById(id, nums);
+    public Result updateProducts(@PathVariable("id")String id ,@PathVariable("nums")Integer nums) {
+        return productService.updateById(id,nums);
     }
 
     //批量删除产品
     @DeleteMapping("/products")
     public Result deleteProducts(@RequestBody List<String> id) {
-        return productService.delete(id);
+        return productService.deleteById(id);
     }
 
-    //删除单个产品
-    @DeleteMapping("/products/{id}")
-    public Result deleteProducts(@PathVariable("id") String id) {
-        return productService.delete(id);
-    }
 }

@@ -8,6 +8,6 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @EnableEurekaClient
 public class StartGateway {
     public static void main(String[] args) {
-        SpringApplication.run(StartGateway.class, args);
+        SpringApplication.run(StartGateway.class,args);
     }
 }

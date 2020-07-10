@@ -22,7 +22,7 @@ spring:
         max-active: 1000
         max-wait: -1
     database: 1
-    timeout: 3000
+    timeout: 10000
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver
@@ -55,7 +55,6 @@ app:
 apollo:
   bootstrap:
     enabled: true
-
   meta: http://orange.linignan.cn:8080
 
 env: dev

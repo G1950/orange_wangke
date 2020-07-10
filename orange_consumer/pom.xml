@@ -10,8 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>orange_consumer</artifactId>
-
-    <build>
-        <finalName>orange_consumer</finalName>
-    </build>
+    <modules>
+        <module>consumer_search</module>
+    </modules>
+    <packaging>pom</packaging>
+    <build><finalName>orange_consumer</finalName></build>
 </project>

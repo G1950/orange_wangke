@@ -55,5 +55,5 @@ env: dev
 
 logging:
   level:
-    com.guangming: debug
+   com.guangming: debug
 

@@ -24,11 +24,9 @@ public interface IProductService {
     Result update(List<Product> products);
 
     //更新产品
-    Result updateById(String id, Integer nums);
+    Result updateById(String id,Integer nums);
 
-    //批量删除产品
-    Result delete(List<String> id);
+    //删除产品
+    Result deleteById(List<String> id);
 
-    //删除单个产品
-    Result delete(String id);
 }
