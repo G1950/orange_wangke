@@ -54,9 +54,9 @@ public class ResourceConfiguration extends ResourceServerConfigurerAdapter {
 //                "/search/cx/**","/code", "/user/register", "/user/logout","/pay/**","/favicon.ico").permitAll().and().authorizeRequests()
 //                .antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated();
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/actuator/**", "/error","/",
-                "/search/cx/**" ,"/pay/**","/favicon.ico","/images/**",
-                "/layui/**","/layuiadmin/**","/me/**","/tm/**","/login","/register","/logout","/forget","/captcha").permitAll().and().authorizeRequests()
+                .authorizeRequests().antMatchers("/actuator/**", "/error", "/",
+                "/search/cx/**", "/pay/**", "/favicon.ico", "/images/**",
+                "/layui/**", "/layuiadmin/**", "/me/**", "/tm/**", "/login", "/register", "/signout", "/forget", "/captcha", "/info").permitAll().and().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated();
         http.headers()
                 .frameOptions().sameOrigin()

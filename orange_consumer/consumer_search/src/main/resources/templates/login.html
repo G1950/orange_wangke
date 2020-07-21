@@ -94,8 +94,10 @@
                 data: obj.field, //数据，这里使用的是Json格式进行传输  JSON.stringify(obj.field)
                 success: function (res,status,xhr) {//返回数据根据结果进行相应的处理
                     console.log(xhr.getAllResponseHeaders())
-                    localStorage.setItem("Authorization",xhr.getResponseHeader("Authorization"))
-                    localStorage.setItem("RefreshToken",xhr.getResponseHeader("RefreshToken"))
+                    console.log(res)
+                    localStorage.setItem("userId", res.data)
+                    localStorage.setItem("Authorization", xhr.getResponseHeader("Authorization"))
+                    localStorage.setItem("RefreshToken", xhr.getResponseHeader("RefreshToken"))
                     if (res.code === 1) {
                         //登入成功的提示与跳转
                         layer.msg(res.msg, {

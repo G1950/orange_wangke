@@ -1,0 +1,139 @@
+body, html {
+    height: 100%;
+    background-color: #EBEBEB
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+input {
+    outline: 0;
+}
+
+li, ul {
+    list-style: none;
+}
+
+.content-left .avatar img {
+    width: 90px;
+    height: 90px;
+    max-width: 100%;
+    border: 0;
+    border-radius: 50%;
+    vertical-align: middle;
+    font-size: 100%;
+    transition: transform .5s ease-out;
+    border: 2px solid #fff;
+}
+
+.content-left .avatar img:hover {
+    transform: rotate(360deg);
+}
+
+.content-box .content-key input {
+    box-sizing: border-box;
+    width: 100%;
+    background-color: transparent;
+}
+
+.content-box .content-key input, .content-box button {
+    display: inline-block;
+    padding: 10px 15px;
+    outline: 0;
+    border: 1px solid #dcdee0;
+    color: #333;
+    line-height: 2pc;
+}
+
+.content-box button {
+    position: relative;
+    left: -.0625rem;
+    width: 7.5rem;
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.tips h1 {
+    margin: auto -10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.tips .tips-submit a {
+    display: inline-block;
+    padding: 8px 1pc;
+    border: 1px solid #dedede;
+    border-radius: 2px;
+    color: #666;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.tips .tips-submit a:first-child {
+    color: #4caf50;
+    margin-right: 5px;
+}
+
+footer {
+    overflow: hidden;
+    padding: 10px 15px;
+    border: 1px solid #eee;
+    font-size: 12pt;
+    border-top: 0;
+    border-radius: 0 0 4px 4px;
+    background-color: #FFFFFF;
+}
+
+.notice {
+    padding: 25px;
+    text-align: center;
+    background-color: #393D49;
+    color: #F8F8F8;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.layui-nav-more {
+    display: none;
+}
+
+.float-right {
+    float: right;
+}
+
+.header {
+    background-color: #393D49;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.item {
+    margin: 15px;
+    font-size: 1pc;
+}
+
+.qq {
+    margin-bottom: 10px;
+}
+
+
+@media screen and (max-width: 480px) {
+    .layui-hide-mm {
+        display: none !important
+    }
+}

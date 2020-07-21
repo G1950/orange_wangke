@@ -19,11 +19,8 @@
 <body style="height: auto">
 <div class="header">
     <ul class="layui-nav">
-        <li class="layui-nav-item layui-hide-mm">
-            <a href="https://blog.orangewangke.cn">橘子博客<span class="layui-badge-dot" th:if="true"></span></a>
-        </li>
         <li class="layui-nav-item float-right" th:if="${user!=null}">
-            <a href="javascript:"><img th:src="${user.avatar_url}" class="layui-nav-img" alt="">&nbsp;<span
+            <a href="javascript: info()"><img th:src="${user.avatar_url}" class="layui-nav-img">&nbsp;<span
                     th:text="${user.nickname}"></span></a>
             <dl class="layui-nav-child" style="text-align: center">
                 <dd><a href="javascript:">修改信息</a></dd>
@@ -98,16 +95,17 @@
         </div>
     </div>
     <footer>
-        <span class="footer-left">©&nbsp;2020 Copyright&nbsp;<a href="http://wangke.ouliweb.cn" title="">橘子网课</a></span>
+        <span class="footer-left">©&nbsp;2020 Copyright&nbsp;<a href="http://www.orangewangke.cn"
+                                                                title="">橘子网课查题</a></span>
         <span class="footer-right">
-				<a rel="nofollow" href="" target="_blank" title="">粤ICP备19149910号</a>
+				<a rel="nofollow" href="http://www.beian.miit.gov.cn/" target="_blank" title="">粤ICP备19149910号</a>
 		    </span>
     </footer>
 </div>
 <script src="layui/jquery-3.0.0.min.js"></script>
 <script src="layui/layui.js"></script>
 <script type="text/javascript">
-    layui.use(['layer', 'form', 'element', 'jquery', 'upload'], function () {
+    layui.use(['layer', 'form', 'element', 'jquery'], function () {
         const layer = layui.layer,
             $ = layui.jquery,
             form = layui.form,
@@ -188,8 +186,20 @@
                 title: false,
                 closeBtn: 0,
                 shadeClose: true,
-                area: [350+'px',' 45%'],
+                area: [350 + 'px', ' 45%'],
                 content: ['/login', 'no'],
+                success: function (layer, index) {
+                }
+            });
+        };
+        window.info = function () {
+            layer.open({
+                type: 2,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true,
+                area: ['50%', '50%'],
+                content: ['/info', 'no'],
                 success: function (layer, index) {
                 }
             });

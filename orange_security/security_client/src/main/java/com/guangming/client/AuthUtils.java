@@ -29,16 +29,33 @@ public class AuthUtils {
     }
 
     public static User getUser(String token) {
-        Claims claims;
         try {
-            //解密
-            claims = Jwts.parser().setSigningKey("SigningKey".getBytes(StandardCharsets.UTF_8)).parseClaimsJws(token).getBody();
+            Claims claims = tokenToInfo(token);
+            // 拿到当前用户，返回用户信息
+            String s = (String) claims.get("user_name");
+            JSONObject jsonObject = JSON.parseObject((String) claims.get("userInfo"));
+            return JSONObject.toJavaObject(jsonObject, User.class);
         } catch (Exception e) {
-            log.error("获取用户信息异常："+e.getMessage());
+            log.error("获取用户信息异常：" + e.getMessage());
             return null;
         }
-        // 拿到当前用户，返回用户信息
-        JSONObject jsonObject = JSON.parseObject((String) claims.get("userInfo"));
-        return JSONObject.toJavaObject(jsonObject, User.class);
+    }
+
+    public static String getUserName(String token) {
+        try {
+            Claims claims = tokenToInfo(token);
+            // 拿到当前用户，返回用户信息
+            return (String) claims.get("user_name");
+        } catch (Exception e) {
+            log.error("获取用户信息异常：" + e.getMessage());
+            return null;
+        }
+    }
+
+    private static Claims tokenToInfo(String token) {
+        Claims claims;
+        //解密
+        claims = Jwts.parser().setSigningKey("SigningKey".getBytes(StandardCharsets.UTF_8)).parseClaimsJws(token).getBody();
+        return claims;
     }
 }

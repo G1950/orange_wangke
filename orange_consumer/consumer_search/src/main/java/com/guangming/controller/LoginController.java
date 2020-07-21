@@ -79,4 +79,10 @@ public class LoginController {
                 verifyCode);
     }
 
+    @GetMapping("info")
+    public String getInfo(HttpSession session) {
+        session.invalidate();
+        return "me";
+    }
+
 }

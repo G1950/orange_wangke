@@ -12,6 +12,7 @@
     <artifactId>orange_consumer</artifactId>
     <modules>
         <module>consumer_search</module>
+        <module>manager-web</module>
     </modules>
     <packaging>pom</packaging>
     <build><finalName>orange_consumer</finalName></build>

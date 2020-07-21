@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>登入</title>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="layui/css/layui-icon-extend/iconfont.css" media="all">
+    <link rel="stylesheet" href="layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="layuiadmin/style/login.css" media="all">
+    <script src="layui/jquery-3.0.0.min.js"></script>
+</head>
+<body>
+<div class="layadmin-user-login"
+     id="LAY-user-login" style="padding: 0">
+
+    <div class="layadmin-user-login-main">
+        <div class="layadmin-user-login-box layadmin-user-login-header">
+            <h2>Orange</h2>
+            <p>橘子网课查题登录</p>
+        </div>
+        <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+            <div class="layui-form-item">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-username"></label>
+                <input type="text" name="account" id="account" lay-verify="required|account"
+                       placeholder="用户编号" class="layui-input">
+            </div>
+            <div class="layui-form-item">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-password"></label>
+                <input type="password" name="password" id="password" lay-verify="required|password"
+                       placeholder="密码" class="layui-input">
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-row">
+                    <div class="layui-col-xs7">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"></label>
+                        <input type="text" name="captcha" id="captcha" lay-verify="required"
+                               placeholder="图形验证码" class="layui-input" autocomplete="off"/>
+                    </div>
+                    <div class="layui-col-xs5">
+                        <div style="margin-left: 10px;">
+                            <img th:src="@{/captcha}"
+                                 id="code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin-bottom: 20px;">
+                <input type="checkbox" name="remember" lay-skin="primary" title="记住密码">
+                <a th:href="@{/forget}"
+                   class="layadmin-user-jump-change layadmin-link"
+                   style="margin-top: 7px;">忘记密码<i class="iconextend icon-wenhao" style="font-size: 20px"></i></a>
+            </div>
+            <div class="layui-form-item" style="margin-bottom:0px;">
+                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit"
+                        id="submitLogin">登 入
+                </button>
+            </div>
+            <div class="layui-trans layui-form-item layadmin-user-login-other">
+                <a th:href="@{/register}" class="layadmin-user-jump-change layadmin-link">用户注册</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="layui/layui.js"></script>
+<script>
+    $(function () {
+        $("#code").click(function () {
+            $(this).attr("src", "/captcha?v=" + Math.round(Math.random() * 10));
+        });
+    });
+
+    layui.use(['form', 'jquery'], function () {
+        var $ = layui.jquery
+            , layer = layui.layer
+            , form = layui.form
+        form.render();
+        $(document).keydown(function (event) {  //实现按Enter键提交表单
+            if (event.keyCode == 13) {
+                $('#submitLogin').trigger('click');
+            }
+        });
+
+        form.verify({})
+
+        //提交
+        form.on('submit(LAY-user-login-submit)', function (obj) {
+            $.ajax({
+                type: "POST",  //提交方式
+                dataType: 'json',
+                url: "/login",//路径
+                data: obj.field, //数据，这里使用的是Json格式进行传输  JSON.stringify(obj.field)
+                success: function (res, status, xhr) {//返回数据根据结果进行相应的处理
+                    console.log(xhr.getAllResponseHeaders())
+                    console.log(res)
+                    localStorage.setItem("userId", res.data)
+                    localStorage.setItem("Authorization", xhr.getResponseHeader("Authorization"))
+                    localStorage.setItem("RefreshToken", xhr.getResponseHeader("RefreshToken"))
+                    if (res.code === 1) {
+                        //登入成功的提示与跳转
+                        layer.msg(res.msg, {
+                            offset: '15px',
+                            icon: 1,
+                            time: 500
+                        }, function () {
+                            parent.location.href = "/"; /*主页*/
+                        });
+                    } else {
+                        layer.msg(res.msg, {icon: 5, shade: [0.5, '#000000'], shadeClose: true, time: 600});
+                    }
+                    $("#code").attr("src", "/captcha?v=" + Math.round(Math.random() * 10));
+                },
+                error: function () {
+                    layer.msg('服务器请求失败', {icon: 5, shade: [0.5, '#000000'], shadeClose: true, time: 1000});
+                    $("#code").attr("src", "/captcha?v=" + Math.round(Math.random() * 10));
+                    return false;
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
