@@ -21,6 +21,12 @@ spring:
     #设置路由规则
     gateway:
       routes:
+        - id: gateway-security
+          uri: lb://ORANGE-SECURITY-SERVER        #代表从注册中心获取服务，且以lb(load-balance)负载均衡方式转发
+          predicates:                     #断言
+            - Path=/security/**            #表示将以/service01/**开头的请求转发到uri为lb://MICROSERVICE01的地址上
+          filters:
+            - StripPrefix=1                #表示将Path的路径/service01在转发前去掉，如果设置StripPrefix=2，表示将/service01/*去掉 以此类推... 同时将spring.cloud.gateway.discovery.locator.enabled改为false，如果不改的话，之前的localhost:8799/client01/test01这样的请求地址也能正常访问，因为这时为每个服务创建了2个router
         - id: gateway-manager
           uri: lb://ORANGE-MANAGER-WEB        #代表从注册中心获取服务，且以lb(load-balance)负载均衡方式转发
           predicates:                     #断言
@@ -32,8 +38,8 @@ spring:
           uri: lb://ORANGE-CONSUMER-SEARCH        #代表从注册中心获取服务，且以lb(load-balance)负载均衡方式转发
           predicates:                     #断言
             - Path=/**            #表示将以/service01/**开头的请求转发到uri为lb://MICROSERVICE01的地址上
-#          filters:
-#            - StripPrefix=1                #表示将Path的路径/service01在转发前去掉，如果设置StripPrefix=2，表示将/service01/*去掉 以此类推... 同时将spring.cloud.gateway.discovery.locator.enabled改为false，如果不改的话，之前的localhost:8799/client01/test01这样的请求地址也能正常访问，因为这时为每个服务创建了2个router
+        #          filters:
+        #            - StripPrefix=1                #表示将Path的路径/service01在转发前去掉，如果设置StripPrefix=2，表示将/service01/*去掉 以此类推... 同时将spring.cloud.gateway.discovery.locator.enabled改为false，如果不改的话，之前的localhost:8799/client01/test01这样的请求地址也能正常访问，因为这时为每个服务创建了2个router
 
       discovery:
         locator:

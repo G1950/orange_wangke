@@ -59,7 +59,7 @@ public class IAuthServerFeignServiceImpl implements FallbackFactory<IAuthServerF
                 @Override
                 public String getValue() {
                     String msg;
-                    if (exception.contains("401")) {
+                    if (exception == null || exception.contains("401")) {
                         msg = "401";
                     } else {
                         msg = "500";

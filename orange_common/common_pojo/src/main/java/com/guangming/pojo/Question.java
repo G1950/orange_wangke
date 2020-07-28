@@ -1,6 +1,6 @@
 package com.guangming.pojo;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,7 +15,7 @@ public class Question implements Serializable {
     //答案
     private String answer;
 
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date timestamp;
 
     public Integer getId() {

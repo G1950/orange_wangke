@@ -10,6 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableEurekaClient
 @EnableCircuitBreaker
 @EnableFeignClients(basePackages = {"com.guangming.service"})
+//@MapperScan(basePackages = {"com.guangming.mapper"})
 public class StartConsumerSearch {
     public static void main(String[] args) {
         SpringApplication.run(StartConsumerSearch.class, args);

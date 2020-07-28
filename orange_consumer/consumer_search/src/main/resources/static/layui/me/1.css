@@ -54,6 +54,22 @@ li, ul {
     line-height: 2pc;
 }
 
+.content-box .content-key select {
+    box-sizing: border-box;
+    width: 100%;
+    height: 3.37rem;
+    background-color: transparent;
+}
+
+.content-box .content-key select, .content-box button {
+    display: inline-block;
+    padding: 10px 15px;
+    outline: 0;
+    border: 1px solid #dcdee0;
+    color: #333;
+    line-height: 2pc;
+}
+
 .content-box button {
     position: relative;
     left: -.0625rem;

@@ -11,32 +11,32 @@
     <meta itemprop="name" content="橘子网课答案查询 - 最便捷的网课查询网站"/>
     <meta itemprop="image" content="/images/wechat.png"/>
     <meta property="og:image" content="/images/wechat.png"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/me/style.css"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="/me/1.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/layui/me/style.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/layui/me/1.css"/>
     <link rel="stylesheet" type="text/css" media="screen" href="/layui/css/layui.css"/>
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico">
 </head>
 <body style="height: auto">
 <div class="header">
     <ul class="layui-nav">
         <li class="layui-nav-item float-right" th:if="${user!=null}">
-            <a href="javascript: info()"><img th:src="${user.avatar_url}" class="layui-nav-img">&nbsp;<span
+            <a><img th:src="${user.avatar_url}" class="layui-nav-img">&nbsp;<span
                     th:text="${user.nickname}"></span></a>
             <dl class="layui-nav-child" style="text-align: center">
-                <dd><a href="javascript:">修改信息</a></dd>
-                <dd><a href="javascript:">安全管理</a></dd>
-                <dd><a th:href="@{/signout}">退出登录</a></dd>
+                <dd><a th:href="@{'/info/'+${user.id}}">个人中心</a></dd>
+                <dd><a href="javascript: signout()">退出登录</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item float-right" th:if="${user==null}">
-            <a href="javascript: sign()"><img src="/images/default.png" class="layui-nav-img" alt="">游客登录<span
+            <a href="javascript: sign()"><img src="/layui/images/default.png" class="layui-nav-img" alt="">游客登录<span
                     class="layui-badge-dot"></span></a>
         </li>
         <li class="layui-nav-item float-right">
-            <a href="">充值</a>
+            <a th:href="@{'/shop/'+${user.id}}" th:if="${user!=null}">充值</a>
+            <a href="javascript: sign()" th:if="${user==null}">充值</a>
         </li>
         <li class="layui-nav-item float-right layui-hide-mm">
-            <a href="">使用说明<span class="layui-badge-dot" th:if="true"></span></a>
+            <a href="javascript: notice()">使用说明<span class="layui-badge-dot" th:if="true"></span></a>
         </li>
     </ul>
 </div>
@@ -47,7 +47,7 @@
             <!-- 左侧 -->
             <div class="content-left">
                 <div class="avatar">
-                    <img src="/images/wechat.png" alt="">
+                    <img src="/layui/images/wechat.png" alt="">
                 </div>
                 <div class="device">
                     <p class="name">橘子查题</p>
@@ -97,14 +97,15 @@
     <footer>
         <span class="footer-left">©&nbsp;2020 Copyright&nbsp;<a href="http://www.orangewangke.cn"
                                                                 title="">橘子网课查题</a></span>
-        <span class="footer-right">
-				<a rel="nofollow" href="http://www.beian.miit.gov.cn/" target="_blank" title="">粤ICP备19149910号</a>
+        <span class="footer-right"><a rel="nofollow" href="http://www.beian.miit.gov.cn/" target="_blank" title="">粤ICP备xxxx号</a>
 		    </span>
+        <!--        <span class="footer-right"><a rel="nofollow" href="http://www.beian.miit.gov.cn/" target="_blank" title="">粤ICP备19149910号</a>-->
+        <!--		    </span>-->
     </footer>
 </div>
-<script src="layui/jquery-3.0.0.min.js"></script>
-<script src="layui/layui.js"></script>
-<script type="text/javascript">
+<script src="/layui/jquery-3.0.0.min.js"></script>
+<script src="/layui/layui.js"></script>
+<script type="text/javascript" th:inline="javascript">
     layui.use(['layer', 'form', 'element', 'jquery'], function () {
         const layer = layui.layer,
             $ = layui.jquery,
@@ -127,12 +128,21 @@
                 });
                 return false;
             }
+            layer.load();
+            var header = {
+                "Authorization": localStorage.getItem("Authorization"),
+                "RefreshToken": localStorage.getItem("RefreshToken")
+            }
+            if ([[${user}]] == null)
+                header = {}
             $.ajax({
                 url: "search/cx",
                 type: "POST",
+                headers: header,
                 dataType: "json",
                 data: "problem=" + $.trim($("#url").val()),
                 success: function (res) {
+                    layer.closeAll("loading");
                     var data = res.data;
                     var oDiv = document.getElementById('tips');
                     if (res.code !== 1) {
@@ -141,14 +151,14 @@
                         return false;
                     }
                     data.forEach(function (value) {
-                        var left= /</g;
-                        var right= />/g;
-                        var problem=value.problem.replace(left,'&lt;');
-                        problem=problem.replace(right,'&gt;');
-                        var xx=value.xx.replace(left,'&lt;');
-                        xx=xx.replace(right,'&gt;');
-                        var answer=value.answer.replace(left,'&lt;');
-                        answer=answer.replace(right,'&gt;');
+                        var left = /</g;
+                        var right = />/g;
+                        var problem = value.problem.replace(left, '&lt;');
+                        problem = problem.replace(right, '&gt;');
+                        var xx = value.xx.replace(left, '&lt;');
+                        xx = xx.replace(right, '&gt;');
+                        var answer = value.answer.replace(left, '&lt;');
+                        answer = answer.replace(right, '&gt;');
                         if (value.xx.length === 0)
                             oDiv.innerHTML = '<div class="tips"><h1>温馨提示：<span class="color">' + res.msg + '</span></h1><div class="tips-content"><li style="margin-bottom: 15px;"><pre>题目：' + problem + '</pre></li><li><pre>答案：' + answer + '</pre></li></div></div>';
                         else
@@ -158,12 +168,17 @@
                     return false;
                 },
                 error: function () {
+                    layer.closeAll("loading");
                     layer.msg('服务器请求失败', {icon: 2, shade: [0.5, '#000000'], shadeClose: true, time: 1000});
                     return false;
                 }
             });
         });
         $(function () {
+            if ([[${user}]] == null)
+                notice()
+        });
+        window.notice = function () {
             layer.open({
                 type: 1,
                 title: false, //不显示标题栏
@@ -174,36 +189,27 @@
                 btn: ['知道啦'],
                 btnAlign: 'c',
                 moveType: 0, //拖拽模式，0或者1
-                content: '<div class="notice"><img src="/images/wechat.png" style="width:350px;height: 350px;" alt=""><br><br>关注我们的公众号，查题更便捷<br>千万级题库，题目更齐全</div>'
+                content: '<div class="notice"><img src="/layui/images/wechat.png" style="width:350px;height: 350px;" alt=""><br><br>关注我们的公众号，查题更便捷<br>千万级题库，题目更齐全</div>'
                 , end: function () {
                     $('input[name=problem]').focus()
                 }
             });
-        });
+        }
         window.sign = function () {
             layer.open({
                 type: 2,
                 title: false,
                 closeBtn: 0,
                 shadeClose: true,
-                area: [350 + 'px', ' 45%'],
-                content: ['/login', 'no'],
-                success: function (layer, index) {
-                }
+                area: ['350px', ' 45%'],
+                content: ['/login'],
             });
         };
-        window.info = function () {
-            layer.open({
-                type: 2,
-                title: false,
-                closeBtn: 0,
-                shadeClose: true,
-                area: ['50%', '50%'],
-                content: ['/info', 'no'],
-                success: function (layer, index) {
-                }
-            });
-        }
+        window.signout = function () {
+            localStorage.clear();
+            location.href = "/signout"
+        };
+
     })
 </script>
 </body>

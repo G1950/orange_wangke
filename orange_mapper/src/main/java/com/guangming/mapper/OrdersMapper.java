@@ -58,4 +58,8 @@ public interface OrdersMapper {
     @Select("select id,user_id,product_id,alipay_id,nums,price,discount,real_price,create_time,last_time,status from orders where user_id=#{id}")
     List<Orders> queryByUserId(@Param("id") String id);
 
+    @Update("update orders " +
+            "set status=-1 where id=#{id}")
+    void cancel(@Param("id") String id);
+
 }

@@ -20,6 +20,7 @@ public class MyTokenExceptionEntryPoint extends OAuth2AuthenticationEntryPoint {
         httpServletResponse.setContentType("application/json;charset=UTF-8");
         log.error("授权异常："+e.getMessage());
         e.printStackTrace();
+        System.out.println("===============" + httpServletRequest.getHeader("Authorization"));
         System.out.println(httpServletRequest.getRequestURI());
         if (httpServletRequest.getHeader("Authorization") == null)
             httpServletResponse.getWriter().write(JSONObject.toJSONString(Result.build(ResultEnum.UNAUTHORIZED_ACCESS)));

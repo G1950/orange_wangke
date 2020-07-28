@@ -3,9 +3,9 @@ package com.guangming.controller;
 import com.guangming.client.AuthUtils;
 import com.guangming.pojo.User;
 import com.guangming.service.ISolrFeignService;
+import com.guangming.utils.IpUtils;
 import com.guangming.utils.Result;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,27 +17,26 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @CrossOrigin
-@Api(value = "用户查题接口列表", tags = "用户查题接口列表")
 public class SearchController {
 
     @Resource
     private ISolrFeignService solrFeignService;
+    @Resource
+    private RedisTemplate<String, Integer> redisTemplate;
 
-
-    @ApiOperation(value = "用户查题首页", hidden = true)
     @GetMapping("/")
     public String index(HttpServletRequest req, Model model, HttpServletResponse resp, HttpSession session) {
+        //从请求头或者session中获取token
         String header = req.getHeader("Authorization");
         if (header == null) {
             header = (String) session.getAttribute("Authorization");
         }
         User user = null;
         if (header != null) {
-            user = AuthUtils.getUser(header); //处理获取认证中的用户数据
-            String userName = AuthUtils.getUserName(header);
-            System.out.println(userName);
+            user = AuthUtils.getReqUser(header); //处理获取认证中的用户数据
         }
         model.addAttribute("user", user);
+        //user不为空，token写入响应头
         if (user != null) {
             resp.setHeader("Authorization", header);
             resp.setHeader("RefreshToken", (String) session.getAttribute("RefreshToken"));
@@ -47,7 +46,13 @@ public class SearchController {
 
     @PostMapping("/search/cx")
     @ResponseBody
-    public Result postSearch(@RequestParam("problem") String problem) {
+    public Result postSearch(@RequestParam("problem") String problem, HttpServletRequest req) {
+        //判断redis是否存在数据
+        String ip = IpUtils.getIpAddr(req);
+        Integer integer = redisTemplate.opsForValue().get(("ip:" + ip));
+        Result result = solrFeignService.indexQuery(problem);
+        if (integer != null && integer > 0 && result.getCode() == 1)  //不存在数据
+            redisTemplate.opsForValue().set(("ip:" + ip), integer - 1);
         return solrFeignService.indexQuery(problem);
     }
 

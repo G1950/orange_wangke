@@ -50,7 +50,7 @@ public class PayController {
         return payService.getAliPay(orderId);
     }
 
-    //获取支付订单状态
+    //获取订单
     @GetMapping(value = "/orders/pay/{orderId}")
     public Result payOrder(@PathVariable("orderId") String orderId) {
         return payService.queryById(orderId);
@@ -60,6 +60,12 @@ public class PayController {
     @PutMapping("/orders")
     public Result update(Orders order) {
         return payService.update(order);
+    }
+
+    //取消订单
+    @PutMapping("/orders/{orderId}")
+    public Result cancelOrder(@PathVariable("orderId") String id) {
+        return payService.cancelOrder(id);
     }
 
 
@@ -87,9 +93,4 @@ public class PayController {
         return payService.queryWalletByUserId(userId);
     }
 
-    //查询钱包信息，用户Id
-    @DeleteMapping("/wallet/{userId}/info")
-    public Result deleteWalletInfo(@PathVariable("userId") String userId){
-        return payService.deleteWalletByUserId(userId);
-    }
 }

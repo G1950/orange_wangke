@@ -1,6 +1,6 @@
 package com.guangming.pojo;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,10 +13,10 @@ public class Wallet implements Serializable {
     //剩余查题次数
     private Integer tm_nums;
     //生效时间
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date create_time;
     //失效时间
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date invalid_time;
 
     public String getUser_id() {

@@ -5,7 +5,6 @@ import com.guangming.pojo.User;
 import com.guangming.service.IAuthorityService;
 import com.guangming.service.IUserService;
 import com.guangming.utils.Result;
-import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -13,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("user")
-@Api(value = "用户信息接口列表", tags = "用户信息接口列表")
 public class UserController {
     @Resource
     private IUserService userService;

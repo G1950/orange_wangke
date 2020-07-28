@@ -18,23 +18,12 @@ spring:
       #总文件限制的大小
       max-request-size: 20MB
   profiles:
-    active: dev
+    active: dev,redis
+    #,db
   mvc:
     throw-exception-if-no-handler-found: true
     servlet:
       load-on-startup: 0
-  redis:
-    host: 139.159.230.104
-    password: g1008611m@
-    port: 6379
-    jedis:
-      pool:
-        max-idle: 100
-        min-idle: 1
-        max-active: 1000
-        max-wait: -1
-    database: 1
-    timeout: 5000
   resources:
     add-mappings: false
 eureka:
@@ -61,6 +50,29 @@ apollo:
 
 env: dev
 
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      ORANGE-PROVIDER-PRODUCT:
+        connectTimeout: 3000
+        readTimeout: 3000
+      ORANGE-PROVIDER-USER:
+        connectTimeout: 3000
+        readTimeout: 3000
+      ORANGE-PROVIDER-PAY:
+        connectTimeout: 3000
+        readTimeout: 3000
+      ORANGE-SECURITY-SERVER:
+        connectTimeout: 3000
+        readTimeout: 3000
+      ORANGE-PROVIDER-SEARCH:
+        connectTimeout: 3000
+        readTimeout: 3000
+#        retryer: feign.Retryer.Default
+
 #hystrix的超时时间
 hystrix:
   command:
@@ -70,15 +82,5 @@ hystrix:
           enabled: true
         isolation:
           thread:
-            timeoutInMilliseconds: 5000
+            timeoutInMilliseconds: 3000
           strategy: SEMAPHORE
-
-feign:
-  hystrix:
-    enabled: true
-  #feign.client.config.default.connectTimeout=10000
-  #feign.client.config.default.readTimeout=60000
-  client:
-    config:
-      default:
-        retryer: feign.Retryer.Default

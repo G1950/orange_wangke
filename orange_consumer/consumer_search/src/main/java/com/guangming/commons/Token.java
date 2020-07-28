@@ -39,12 +39,12 @@ public class Token {
             }
             OAuth2RefreshToken refresh_token = tokenBody.getRefreshToken();
             refreshToken = refresh_token.getValue();
-        }else {
+        } else {
             throw new AccessDeniedException("未经授权或授权失败！");
         }
         parameter.clear();
-        parameter.put("Authorization",access_token);
-        parameter.put("RefreshToken",refreshToken);
+        parameter.put("Authorization", "Bearer " + access_token);
+        parameter.put("RefreshToken", refreshToken);
         return parameter;
     }
 }

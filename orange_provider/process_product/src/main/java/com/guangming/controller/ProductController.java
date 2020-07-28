@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     //查询所有或特定产品
-    @GetMapping("/products")
+    @PostMapping("/product")
     public Result queryProducts(Product product) {
         System.out.println(product);
         return productService.query(product);

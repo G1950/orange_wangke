@@ -21,8 +21,8 @@ public enum ResultEnum {
     SEND_MESSAGE_FAIL(201, "发送短信失败"),
     SMS_ERROR_CODE(202, "短信验证码无效"),
 
-    CAPTCHA_ERROR(0,"验证码错误"),
-    CAPTCHA_SUCCESS(1,"验证码正确"),
+    CAPTCHA_ERROR(0, "验证码错误"),
+    CAPTCHA_SUCCESS(1, "验证码正确"),
 
     SAVE_SUCCESS(1, "添加成功"),
     UPDATE_SUCCESS(1, "更新成功"),
@@ -52,7 +52,7 @@ public enum ResultEnum {
     NO_HANDLER_FOUND(404, "请求的资源不存在"),
     METHOD_NOT_SUPPORT(405, "不支持该请求方式"),
     MEDIA_TYPE_NOT_SUPPORT(415, "内容类型不支持"),
-    SYS_ERROR(500, "系统内部异常"),
+    SYS_ERROR(500, "服务器开小差了"),
 
     RESOURCE_EXIST(207, "资源已存在"),
 
@@ -62,10 +62,13 @@ public enum ResultEnum {
     ORDER_ILLEGAL(-1, "非法操作"),
     ORDER_NOT_EXIST(5, "订单不存在"),
     ORDER_UPDATE_FAIL(0, "订单修改失败"),
+    ORDER_CANCEL_FAIL(0, "订单取消失败"),
+    ORDER_CANCEL_SUCCESS(1, "订单取消成功"),
 
     PAY_SUCCESS(1, "支付成功"),
     PAY_FAIL(0, "支付失败"),
-    PAY_EXCEPTION(-1, "支付异常");
+    PAY_EXCEPTION(-1, "支付异常"),
+    NOT_ENOUGH_MONENY(0, "余额不足，请及时充值");
 
     private Integer code;
 

@@ -12,7 +12,7 @@ server:
       force: true
 spring:
   redis:
-    host: 139.159.230.104
+    host: 39.101.162.9
     password: g1008611m@
     port: 6379
     jedis:

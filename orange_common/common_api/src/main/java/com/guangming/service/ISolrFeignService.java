@@ -1,6 +1,7 @@
 package com.guangming.service;
 
 
+import com.guangming.configbeans.FeignConfig;
 import com.guangming.pojo.Question;
 import com.guangming.service.impl.ISolrFeignServiceImpl;
 import com.guangming.utils.Result;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(value = "ORANGE-PROVIDER-SEARCH", fallbackFactory = ISolrFeignServiceImpl.class)
+@FeignClient(value = "ORANGE-PROVIDER-SEARCH", configuration = FeignConfig.class, fallbackFactory = ISolrFeignServiceImpl.class)
 public interface ISolrFeignService {
 
     //添加题目

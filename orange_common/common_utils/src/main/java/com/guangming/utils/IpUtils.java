@@ -41,7 +41,7 @@ public class IpUtils {
     public static boolean internalIp(String ip) {
         boolean res = false;
         byte[] addr = textToNumericFormatV4(ip);
-        if (addr != null && ip != null) {
+        if (addr != null) {
             res = internalIp(addr) || LOCAL_IP.equals(ip);
         }
         return res;

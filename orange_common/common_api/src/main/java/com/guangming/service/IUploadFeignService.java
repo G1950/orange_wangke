@@ -14,5 +14,5 @@ import org.springframework.web.multipart.MultipartFile;
 @FeignClient(value = "ORANGE-PROVIDER-UPLOAD", configuration = {FeignMultipartSupportConfig.class, FeignConfig.class}, fallbackFactory = IUploadFeignServiceImpl.class)
 public interface IUploadFeignService {
     @PostMapping(value = "/upload/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    Result uploadTmFile(@RequestPart(value = "file") MultipartFile file, @RequestParam("id") String id);
+    Result uploadImg(@RequestPart(value = "file") MultipartFile file, @RequestParam("id") String id);
 }

@@ -17,6 +17,9 @@ public class FeignConfig implements RequestInterceptor {
             throw new IllegalArgumentException();
         HttpServletRequest request = attributes.getRequest();
         String header = request.getHeader("Authorization");
+        if (header == null) {
+            header = (String) request.getSession().getAttribute("Authorization");
+        }
         requestTemplate.header("Authorization", header);
     }
 }

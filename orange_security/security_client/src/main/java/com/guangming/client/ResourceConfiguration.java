@@ -1,6 +1,7 @@
 package com.guangming.client;
 
 import com.guangming.exception.MyTokenExceptionEntryPoint;
+import com.guangming.filter.BeforeFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.annotation.Resource;
@@ -31,6 +33,9 @@ public class ResourceConfiguration extends ResourceServerConfigurerAdapter {
     private MyTokenExceptionEntryPoint tokenExceptionEntryPoint; /*自定义权限异常*/
     @Resource
     private RedisConnectionFactory redisConnectionFactory; /*redis连接*/
+
+    @Resource
+    private BeforeFilter beforeFilter;
 
     //资源服务配置
     @Override
@@ -54,13 +59,14 @@ public class ResourceConfiguration extends ResourceServerConfigurerAdapter {
 //                "/search/cx/**","/code", "/user/register", "/user/logout","/pay/**","/favicon.ico").permitAll().and().authorizeRequests()
 //                .antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated();
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/actuator/**", "/error", "/",
-                "/search/cx/**", "/pay/**", "/favicon.ico", "/images/**",
-                "/layui/**", "/layuiadmin/**", "/me/**", "/tm/**", "/login", "/register", "/signout", "/forget", "/captcha", "/info").permitAll().and().authorizeRequests()
+                .authorizeRequests().antMatchers("/actuator/**", "/error",
+                "/search/cx/**", "/tm/index/*", "/pay/**", "/favicon.ico",
+                "/layui/**", "/layuiadmin/**", "/login", "/register", "/signout", "/forget", "/", "/captcha", "/shop/**", "/info/*", "/upload/**").permitAll().and().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll().anyRequest().authenticated();
         http.headers()
                 .frameOptions().sameOrigin()
                 .httpStrictTransportSecurity().disable();  /*允许同源开iframe*/
+        http.addFilterBefore(beforeFilter, BasicAuthenticationFilter.class);
         // @formatter:on
     }
 

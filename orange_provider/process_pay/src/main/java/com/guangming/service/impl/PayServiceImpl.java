@@ -87,9 +87,9 @@ public class PayServiceImpl implements IPayService {
             //修改产品库存
             productMapper.updateById(order.getProduct_id(), order.getNums());
             log.info("订单创建成功: " + orderId);
-            return Result.build(ResultEnum.ORDER_CREATE_SUCCESS);
+            return Result.build(ResultEnum.ORDER_CREATE_SUCCESS, orderId);
         } catch (Exception e) {
-            log.error("订单创建异常："+e.getMessage());
+            log.error("订单创建异常：" + e.getMessage());
             return Result.build(ResultEnum.ORDER_CREATE_FAIL);
         }
     }
@@ -101,7 +101,7 @@ public class PayServiceImpl implements IPayService {
             log.info("订单查询成功ByOrder");
             return Result.build(ResultEnum.QUERY_SUCCESS, orders);
         } catch (Exception e) {
-            log.error("订单查询异常ByOrder："+e.getMessage());
+            log.error("订单查询异常ByOrder：" + e.getMessage());
             return Result.build(ResultEnum.QUERY_ERROR);
         }
     }
@@ -113,7 +113,7 @@ public class PayServiceImpl implements IPayService {
             log.info("订单查询成功ByOrderId");
             return Result.build(ResultEnum.QUERY_SUCCESS, orders);
         } catch (Exception e) {
-            log.error("订单查询异常："+e.getMessage());
+            log.error("订单查询异常：" + e.getMessage());
             return Result.build(ResultEnum.QUERY_ERROR);
         }
     }
@@ -123,8 +123,7 @@ public class PayServiceImpl implements IPayService {
         try {
             //判断用户是否存在
             User user = userMapper.findUserInfoById(userId);
-            if (user == null)
-            {
+            if (user == null) {
                 log.error("订单查询失败ByUserIdOrderId：用户不存在");
                 return Result.build(ResultEnum.NOT_EXIST_USER);
             }
@@ -138,8 +137,7 @@ public class PayServiceImpl implements IPayService {
 
             //判断该订单号对应用户
             Orders order = ordersMapper.queryByOrderId(orderId);
-            if (order == null || !(order.getUser_id().equals(userId)))
-            {
+            if (order == null || !(order.getUser_id().equals(userId))) {
                 log.error("订单查询失败ByUserIdOrderId：订单不存在");
                 return Result.build(ResultEnum.ORDER_NOT_EXIST);
             }
@@ -148,7 +146,7 @@ public class PayServiceImpl implements IPayService {
             log.info("订单查询成功ByUserIdOrderId");
             return Result.build(ResultEnum.QUERY_SUCCESS, orders);
         } catch (Exception e) {
-            log.info("订单查询异常ByUserIdOrderId："+e.getMessage());
+            log.info("订单查询异常ByUserIdOrderId：" + e.getMessage());
             return Result.build(ResultEnum.QUERY_ERROR);
         }
     }
@@ -164,14 +162,14 @@ public class PayServiceImpl implements IPayService {
             }
             if (orders.getStatus() == -1 || orders.getStatus() == 1) //订单是否完成，或取消
             {
-                log.error("订单修改失败：订单"+ (orders.getStatus() == -1 ? "已取消":"已支付" ));
+                log.error("订单修改失败：订单" + (orders.getStatus() == -1 ? "已取消" : "已支付"));
                 return Result.build(ResultEnum.ORDER_UPDATE_FAIL);
             }
             ordersMapper.update(order);
             log.info("订单修改成功");
             return Result.build(ResultEnum.UPDATE_SUCCESS);
         } catch (Exception e) {
-            log.error("订单修改异常："+e.getMessage());
+            log.error("订单修改异常：" + e.getMessage());
             return Result.build(ResultEnum.ORDER_UPDATE_FAIL);
         }
     }
@@ -181,16 +179,14 @@ public class PayServiceImpl implements IPayService {
         try {
             //判断用户是否存在
             User user = userMapper.findUserInfoById(userId);
-            if (user == null)
-            {
+            if (user == null) {
                 log.error("订单删除失败ByUserIdOrderId：用户不存在");
                 return Result.build(ResultEnum.NOT_EXIST_USER);
             }
 
             //判断该订单号对应用户
             Orders order = ordersMapper.queryByOrderId(orderId);
-            if (order == null || !(order.getUser_id().equals(userId)))
-            {
+            if (order == null || !(order.getUser_id().equals(userId))) {
                 log.error("订单删除失败ByUserIdOrderId：订单不存在");
                 return Result.build(ResultEnum.ORDER_NOT_EXIST);
             }
@@ -199,7 +195,7 @@ public class PayServiceImpl implements IPayService {
             log.info("订单删除成功ByUserIdOrderId");
             return Result.build(ResultEnum.DELETE_SUCCESS);
         } catch (Exception e) {
-            log.info("订单删除异常ByUserIdOrderId："+e.getMessage());
+            log.info("订单删除异常ByUserIdOrderId：" + e.getMessage());
             return Result.build(ResultEnum.DELETE_ERROR);
         }
     }
@@ -342,18 +338,16 @@ public class PayServiceImpl implements IPayService {
             request.setNotifyUrl(AlipayConfig.notify_url);
 
             Orders orders = ordersMapper.queryByOrderId(orderId);
-            if (orders == null)
-            {
+            if (orders == null) {
                 log.error("支付宝订单创建失败：订单不存在");
                 return "非法请求"; //防止非法请求
             }
             BigDecimal totalCount = new BigDecimal(Double.toString(0.00));
-            if (orders.getStatus() == 1)
-            {log.error("支付宝订单创建失败：订单已支付");
+            if (orders.getStatus() == 1) {
+                log.error("支付宝订单创建失败：订单已支付");
                 return "订单已支付"; //订单状态
             }
-            if (orders.getStatus() == -1)
-            {
+            if (orders.getStatus() == -1) {
                 log.error("支付宝订单创建失败：订单已取消");
                 return "订单已取消"; //订单状态
             }
@@ -380,7 +374,7 @@ public class PayServiceImpl implements IPayService {
             log.info("支付宝订单创建成功");
             return alipayClient.pageExecute(request).getBody();
         } catch (Exception e) {
-            log.error("支付宝订单创建异常："+e.getMessage());
+            log.error("支付宝订单创建异常：" + e.getMessage());
             return null;
         }
     }
@@ -390,8 +384,7 @@ public class PayServiceImpl implements IPayService {
     public Result queryWalletByUserId(String userId) {
         try {
             User user = userMapper.findUserInfoById(userId);
-            if (user == null)
-            {
+            if (user == null) {
                 log.error("查询钱包信息失败ByUserId：用户不存在");
                 return Result.build(ResultEnum.NOT_EXIST_USER);
             }
@@ -400,29 +393,29 @@ public class PayServiceImpl implements IPayService {
             return Result.build(ResultEnum.QUERY_SUCCESS, wallet);
 
         } catch (Exception e) {
-            log.error("查询钱包信息异常ByUserId："+e.getMessage());
+            log.error("查询钱包信息异常ByUserId：" + e.getMessage());
             return Result.build(ResultEnum.QUERY_ERROR);
         }
     }
 
-    @Override
-    public Result deleteWalletByUserId(String userId) {
-        try {
-            User user = userMapper.findUserInfoById(userId);
-            if (user == null)
-            {
-                log.error("删除钱包信息失败ByUserId：用户不存在");
-                return Result.build(ResultEnum.NOT_EXIST_USER);
-            }
-            walletMapper.deleteById(userId);
-            log.error("删除钱包信息成功ByUserId");
-            return Result.build(ResultEnum.DELETE_SUCCESS);
-
-        } catch (Exception e) {
-            log.error("删除钱包信息异常ByUserId："+e.getMessage());
-            return Result.build(ResultEnum.DELETE_ERROR);
-        }
-    }
+//    @Override
+//    public Result deleteWalletByUserId(String userId) {
+//        try {
+//            User user = userMapper.findUserInfoById(userId);
+//            if (user == null)
+//            {
+//                log.error("删除钱包信息失败ByUserId：用户不存在");
+//                return Result.build(ResultEnum.NOT_EXIST_USER);
+//            }
+//            walletMapper.deleteById(userId);
+//            log.error("删除钱包信息成功ByUserId");
+//            return Result.build(ResultEnum.DELETE_SUCCESS);
+//
+//        } catch (Exception e) {
+//            log.error("删除钱包信息异常ByUserId："+e.getMessage());
+//            return Result.build(ResultEnum.DELETE_ERROR);
+//        }
+//    }
 
     //修改钱包信息，订单支付成功时
     private void updateWallet(Orders order) {
@@ -492,5 +485,33 @@ public class PayServiceImpl implements IPayService {
         wallet.setCreate_time(createTime);
         wallet.setInvalid_time(invalidTime);
         walletMapper.update(wallet);
+    }
+
+    @Override
+    public Result cancelOrder(String id) {
+        try {
+            Orders orders = ordersMapper.queryByOrderId(id);
+            if (orders == null) //订单不存在
+            {
+                log.error("订单取消失败：订单不存在");
+                return Result.build(ResultEnum.ORDER_NOT_EXIST);
+            }
+            if (orders.getStatus() == 1) //订单是否完成，或取消
+            {
+                log.error("订单取消失败：订单已支付");
+                return Result.build(ResultEnum.ORDER_CANCEL_FAIL);
+            }
+            //修改订单状态
+            ordersMapper.cancel(id);
+            log.info("订单修改成功");
+
+            //恢复商品数量
+            productMapper.updateCancelById(orders.getProduct_id(), orders.getNums());
+
+            return Result.build(ResultEnum.ORDER_CANCEL_SUCCESS);
+        } catch (Exception e) {
+            log.error("订单修改异常：" + e.getMessage());
+            return Result.build(ResultEnum.ORDER_CANCEL_FAIL);
+        }
     }
 }

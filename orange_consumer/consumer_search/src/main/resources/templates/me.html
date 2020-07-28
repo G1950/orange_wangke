@@ -1,48 +1,394 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>个人中心</title>
     <link rel="stylesheet" type="text/css" media="screen" href="/layui/css/layui.css"/>
+    <link rel="stylesheet" href="/layuiadmin/style/admin.css" media="all">
+    <style type="text/css">
+        @media screen and (max-width: 1250px) {
+            .hide-mm {
+                display: none !important
+            }
+        }
+    </style>
 </head>
 <body>
+<div class="header">
+    <ul class="layui-nav">
+        <li class="layui-nav-item">
+            <a th:href="@{/}">返回查题首页</a>
+        </li>
+    </ul>
+</div>
 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
     <ul class="layui-tab-title">
-        <li>我的信息</li>
+        <li class="layui-this">我的信息</li>
+        <li>修改密码</li>
         <li>我的钱包</li>
         <li>订单管理</li>
     </ul>
     <div class="layui-tab-content" style="margin: 0;height: 100%;padding: 0;">
-        <div class="layui-tab-item layui-show">1</div>
+        <div class="layui-tab-item layui-show">
+            <div class="layui-fluid">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">设置我的资料</div>
+                            <div class="layui-card-body" pad15>
+
+                                <div class="layui-form" lay-filter="">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">用户名</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="username" th:value="${account}" disabled
+                                                   class="layui-input">
+                                        </div>
+                                        <div class="layui-form-mid layui-word-aux">不可修改。一般用于后台登入名</div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">昵称</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="nickname" th:value="${user.nickname}"
+                                                   lay-verify="nickname" autocomplete="off" placeholder="请输入昵称"
+                                                   class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">头像</label>
+                                        <div class="layui-input-inline">
+                                            <input type="hidden" name="avatar" lay-verify="required" id="LAY_avatarSrc"
+                                                   placeholder="图片地址" th:value="${user.avatar_url}" class="layui-input">
+                                        </div>
+                                        <div class="layui-input-inline layui-btn-container" style="width: auto;">
+                                            <button type="button" class="layui-btn layui-btn-primary"
+                                                    id="LAY_avatarUpload">
+                                                <i class="layui-icon">&#xe67c;</i>上传图片
+                                            </button>
+                                            <button class="layui-btn layui-btn-primary" layadmin-event="avartatPreview">
+                                                查看图片
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">手机</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="cellphone" th:value="${user.phone}"
+                                                   lay-verify="phone" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">邮箱</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="email" th:value="${user.email}" lay-verify="email"
+                                                   autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认修改</button>
+                                            <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="layui-tab-item">
-            2
+            <div class="layui-fluid">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">修改密码</div>
+                            <div class="layui-card-body" pad15>
+
+                                <div class="layui-form" lay-filter="">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">当前密码</label>
+                                        <div class="layui-input-inline">
+                                            <input type="password" name="oldPassword" lay-verify="required"
+                                                   lay-verType="tips" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">新密码</label>
+                                        <div class="layui-input-inline">
+                                            <input type="password" name="password" lay-verify="pass" lay-verType="tips"
+                                                   autocomplete="off" id="LAY_password" class="layui-input">
+                                        </div>
+                                        <div class="layui-form-mid layui-word-aux">6到16个字符</div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">确认新密码</label>
+                                        <div class="layui-input-inline">
+                                            <input type="password" name="repassword" lay-verify="repass"
+                                                   lay-verType="tips" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button class="layui-btn" lay-submit lay-filter="setmypass">确认修改</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            <div class="layui-fluid">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">钱包信息</div>
+                            <div class="layui-card-body" pad15>
+
+                                <div class="layui-form" lay-filter="">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">查题类型</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="pay_type"
+                                                   th:value="${wallet.pay_type==1 ? '包月用户':(wallet.pay_type==0? '按次数':'免费用户')}"
+                                                   class="layui-input" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item" th:if="${wallet.pay_type==0}">
+                                        <label class="layui-form-label">查题余额</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="tm_nums" th:value="${wallet.tm_nums}"
+                                                   class="layui-input" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item" th:if="${wallet.pay_type==1}">
+                                        <label class="layui-form-label">包月生效</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="create_time" th:value="${wallet.create_time}"
+                                                   disabled class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item" th:if="${wallet.pay_type==1}">
+                                        <label class="layui-form-label">包月失效</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="invalid_time" th:value="${wallet.invalid_time}"
+                                                   disabled class="layui-input">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="layui-tab-item">
             <div class="layui-tab layui-tab-card" style="height: 100% ;margin: 0;">
                 <ul class="layui-tab-title">
-                    <li>全部</li>
+                    <li class="layui-this">全部</li>
                     <li>未付款</li>
                     <li>已完成</li>
                     <li>已取消</li>
                 </ul>
                 <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">1</div>
-                    <div class="layui-tab-item">2</div>
-                    <div class="layui-tab-item">3</div>
-                    <div class="layui-tab-item">4</div>
+                    <div class="layui-tab-item layui-show">
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th>订单编号</th>
+                                <th>商品编号</th>
+                                <th>商品数量</th>
+                                <th>单价</th>
+                                <th>折扣</th>
+                                <th>总价格</th>
+                                <th>实际价格</th>
+                                <th class="hide-mm">支付编号</th>
+                                <th class="hide-mm">创建时间</th>
+                                <th class="hide-mm">更新时间</th>
+                                <th>订单状态</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order : ${orders}">
+                                <td th:text="${order.id}"></td>
+                                <td th:text="${order.product_id}"></td>
+                                <td th:text="${order.nums}"></td>
+                                <td th:text="${order.price}"></td>
+                                <td th:text="${order.discount}"></td>
+                                <td th:text="${order.price*order.nums}"></td>
+                                <td th:text="${order.real_price}"></td>
+                                <td class="hide-mm" th:text="${order.alipay_id}"></td>
+                                <td class="hide-mm" th:text="${order.create_time}"></td>
+                                <td class="hide-mm" th:text="${order.last_time}"></td>
+                                <td><span th:if="${order.status==1}" class="layui-btn layui-btn-xs">已支付</span>
+                                    <span th:if="${order.status==0}"
+                                          class="layui-btn layui-btn-warm layui-btn-xs">未支付</span>
+                                    <span th:if="${order.status==-1}" class="layui-btn layui-btn-danger layui-btn-xs">已取消</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="layui-tab-item">
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th>订单编号</th>
+                                <th>商品编号</th>
+                                <th>商品数量</th>
+                                <th>单价</th>
+                                <th>折扣</th>
+                                <th>总价格</th>
+                                <th>实际价格</th>
+                                <th class="hide-mm">创建时间</th>
+                                <th class="hide-mm">更新时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order : ${orders}" th:if="${order.status==0}">
+                                <td th:text="${order.id}"></td>
+                                <td th:text="${order.product_id}"></td>
+                                <td th:text="${order.nums}"></td>
+                                <td th:text="${order.price}"></td>
+                                <td th:text="${order.discount}"></td>
+                                <td th:text="${order.price*order.nums}"></td>
+                                <td th:text="${order.real_price}"></td>
+                                <td class="hide-mm" th:text="${order.create_time}"></td>
+                                <td class="hide-mm" th:text="${order.last_time}"></td>
+                                <td><a class="layui-btn layui-btn-xs" th:href="@{'/pay/alipay/'+${order.id}} ">支付</a>
+                                    <button class="layui-btn layui-btn-danger layui-btn-xs"
+                                            th:onclick="cancel([[${order.id}]]);">取消
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="layui-tab-item">
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th>订单编号</th>
+                                <th>商品编号</th>
+                                <th>商品数量</th>
+                                <th>单价</th>
+                                <th>折扣</th>
+                                <th>总价格</th>
+                                <th>实际价格</th>
+                                <th class="hide-mm">支付编号</th>
+                                <th class="hide-mm">创建时间</th>
+                                <th class="hide-mm">更新时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order : ${orders}" th:if="${order.status==1}">
+                                <td th:text="${order.id}"></td>
+                                <td th:text="${order.product_id}"></td>
+                                <td th:text="${order.nums}"></td>
+                                <td th:text="${order.price}"></td>
+                                <td th:text="${order.discount}"></td>
+                                <td th:text="${order.price*order.nums}"></td>
+                                <td th:text="${order.real_price}"></td>
+                                <td class="hide-mm" th:text="${order.alipay_id}"></td>
+                                <td class="hide-mm" th:text="${order.create_time}"></td>
+                                <td class="hide-mm" th:text="${order.last_time}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="layui-tab-item">
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th>订单编号</th>
+                                <th>商品编号</th>
+                                <th>商品数量</th>
+                                <th>单价</th>
+                                <th>折扣</th>
+                                <th>总价格</th>
+                                <th>实际价格</th>
+                                <th class="hide-mm">创建时间</th>
+                                <th class="hide-mm">更新时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order : ${orders}" th:if="${order.status==-1}">
+                                <td th:text="${order.id}"></td>
+                                <td th:text="${order.product_id}"></td>
+                                <td th:text="${order.nums}"></td>
+                                <td th:text="${order.price}"></td>
+                                <td th:text="${order.discount}"></td>
+                                <td th:text="${order.price*order.nums}"></td>
+                                <td th:text="${order.real_price}"></td>
+                                <td class="hide-mm" th:text="${order.create_time}"></td>
+                                <td class="hide-mm" th:text="${order.last_time}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="layui/layui.js"></script>
+<script src="/layui/jquery-3.0.0.min.js"></script>
+<script src="/layui/layui.js" th:inline="javascript"></script>
 <script>
-    //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
-    layui.use('element', function () {
-        const element = layui.element;
+    layui.config({
+        base: '/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'set', 'jquery', 'layer'], function () {
+        const layer = layui.layer,
+            $ = layui.jquery;
+        window.cancel = function (id) {
+            layer.confirm('确认取消？', function (index) {
+                layer.close(index);
+                layer.load();
+                var header = {
+                    "Authorization": localStorage.getItem("Authorization"),
+                    "RefreshToken": localStorage.getItem("RefreshToken")
+                }
+                $.ajax({
+                    url: "/shop/cancel/" + id,
+                    type: "GET",
+                    headers: header,
+                    success: function (res) {
+                        layer.closeAll("loading");
+                        if (res.code !== 1) {
+                            layer.msg(res.msg, {
+                                icon: 2,
+                                time: 1000
+                            });
+                        } else {
+                            layer.msg(res.msg, {
+                                icon: 1,
+                                time: 1000
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                        console.log(res)
+                    },
+                    error: function () {
+                        layer.closeAll("loading");
+                        layer.msg('服务器请求失败', {icon: 2, shade: [0.5, '#000000'], shadeClose: true, time: 1000});
+                        return false;
+                    }
+                });
+            });
 
-        //…
-    });
+
+        }
+    })
 </script>
 </body>
 </html>

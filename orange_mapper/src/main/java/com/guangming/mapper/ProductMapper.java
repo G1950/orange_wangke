@@ -57,7 +57,13 @@ public interface ProductMapper {
             "update product set nums=nums-#{nums} " +
             "where id=#{id}" +
             "</script>")
-    void updateById(@Param("id") String  id,@Param("nums") Integer nums);
+    void updateById(@Param("id") String id, @Param("nums") Integer nums);
+
+    @Update("<script>" +
+            "update product set nums=nums+#{nums} " +
+            "where id=#{id}" +
+            "</script>")
+    void updateCancelById(@Param("id") String id, @Param("nums") Integer nums);
 
     @Update("<script> update product " +
             "set status=0 " +

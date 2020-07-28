@@ -1,11 +1,9 @@
 package com.guangming.service;
 
 import com.guangming.pojo.Orders;
-import com.guangming.pojo.Wallet;
 import com.guangming.utils.Result;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 //订单接口
 public interface IPayService {
@@ -41,6 +39,5 @@ public interface IPayService {
     //查询钱包信息，根据userId
     Result queryWalletByUserId(String userId);
 
-    //删除钱包信息，用户注销时用到
-    Result deleteWalletByUserId(String userId);
+    Result cancelOrder(String id);
 }
