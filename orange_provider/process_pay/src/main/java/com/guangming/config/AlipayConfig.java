@@ -1,7 +1,5 @@
 package com.guangming.config;
 
-import org.springframework.util.ClassUtils;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -19,7 +17,6 @@ public class AlipayConfig {
 
 //请在这里配置您的基本信息
 
-    public static String path = ClassUtils.getDefaultClassLoader().getResource("").getPath();
     // 应用ID,您的APPID，收款账号既是您的APPID对应支付宝账号
     public static String app_id = "2016102900776579";
 
@@ -30,10 +27,10 @@ public class AlipayConfig {
     // 支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
     public static String alipay_public_key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIgHnOn7LLILlKETd6BFRJ0GqgS2Y3mn1wMQmyh9zEyWlz5p1zrahRahbXAfCfSqshSNfqOmAQzSHRVjCqjsAw1jyqrXaPdKBmr90DIpIxmIyKXv4GGAkPyJ/6FTFY99uhpiq0qadD/uSzQsefWo0aTvP/65zi3eof7TcZ32oWpwIDAQAB";
     // 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    public static String notify_url = "http://v30503j702.zicp.vip/pay/notifyNotice";
+    public static String notify_url = "https://www.linignan.cn/pay/notifyNotice";
 
     // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    public static String return_url = "http://v30503j702.zicp.vip/pay/returnNotice";
+    public static String return_url = "https://www.linignan.cn/pay/returnNotice";
 
     // 签名方式
     public static String sign_type = "RSA2";
@@ -47,18 +44,19 @@ public class AlipayConfig {
     // 支付宝网关
     public static String log_path = "C:\\";
 
-    public static String app_cert_path="cert/appCertPublicKey_2016102900776579.crt";
-    public static String alipay_cert_path="cert/alipayCertPublicKey_RSA2.crt";
-    public static String alipay_root_cert_path="cert/alipayRootCert.crt";
+    public static String app_cert_path = "/usr/resources/appCertPublicKey_2016102900776579.crt";
+    public static String alipay_cert_path = "/usr/resources/alipayCertPublicKey_RSA2.crt";
+    public static String alipay_root_cert_path = "/usr/resources/alipayRootCert.crt";
 
     /**
      * 写日志，方便测试（看网站需求，也可以改成把记录存入数据库）
+     *
      * @param sWord 要写入日志里的文本内容
      */
     public static void logResult(String sWord) {
         FileWriter writer = null;
         try {
-            writer = new FileWriter(log_path + "alipay_log_" + System.currentTimeMillis()+".txt");
+            writer = new FileWriter(log_path + "alipay_log_" + System.currentTimeMillis() + ".txt");
             writer.write(sWord);
         } catch (Exception e) {
             e.printStackTrace();

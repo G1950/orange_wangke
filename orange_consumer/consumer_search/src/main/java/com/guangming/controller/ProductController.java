@@ -73,7 +73,7 @@ public class ProductController {
             /*订单*/
             Result orders = payFeignService.createOrder(order);
             System.out.println(productId);
-            return orders.getData() == null ? Result.build(ResultEnum.ORDER_CREATE_FAIL) : Result.build(ResultEnum.ORDER_CREATE_SUCCESS, "/shop/" + id + "/" + orders.getData());
+            return orders.getData() == null ? orders : Result.build(ResultEnum.ORDER_CREATE_SUCCESS, "/shop/" + id + "/" + orders.getData());
         } catch (Exception e) {
             return Result.build(ResultEnum.ORDER_CREATE_FAIL);
         }
@@ -100,5 +100,15 @@ public class ProductController {
     @ResponseBody
     public Result payCancel(@PathVariable("orderId") String orderId) {
         return payFeignService.cancelOrder(orderId);
+    }
+
+
+    //查询所有或特定产品
+    @GetMapping("/shop/order/{id}")
+    public String queryOrders(@PathVariable("id") String id, Model model) {
+        System.out.println("----===" + id);
+        Result result = payFeignService.payOrder(id);
+        model.addAttribute("order", result.getData());
+        return "order";
     }
 }

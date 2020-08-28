@@ -2,7 +2,6 @@ package com.guangming.mapper;
 
 
 import com.guangming.pojo.Authority;
-import com.guangming.pojo.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -35,8 +34,8 @@ public interface AuthorityMapper {
 
 
     //添加
-    @Insert("insert into authority (authority_id,authority_account,authority_pass,authority_role) values  " +
-            "  (#{authority.authority_id},#{authority.authority_account},#{authority.authority_pass},#{authority.authority_role})")
+    @Insert("insert into authority (authority_id,authority_account,authority_pass) values  " +
+            "  (#{authority.authority_id},#{authority.authority_account},#{authority.authority_pass})")
     void saveAuthority(@Param("authority") Authority authority);
 
 

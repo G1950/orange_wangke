@@ -21,12 +21,17 @@ public interface UserMapper {
             "<when test='user.phone!=null and user.phone!=\"\"'>and phone=#{user.phone} </when>" +
             "<when test='user.avatar_url!=null and user.avatar_url!=\"\"'>and avatar_url=#{user.avatar_url} </when>" +
             "</script>")
-   List<User> findUserInfo(@Param("user") User user);
+    List<User> findUserInfo(@Param("user") User user);
 
     //添加用户
     @Insert("insert into user (id,nickname,email,phone,avatar_url) values  " +
             "  (#{item.id},#{item.nickname},#{item.email},#{item.phone},#{item.avatar_url})")
     void saveUserInfo(@Param("item") User user);
+
+    //添加用户
+    @Insert("insert into user (id) values  " +
+            "  (#{item.id})")
+    void saveUser(@Param("item") User user);
 
     //修改用户信息
     @Update("<script>" +

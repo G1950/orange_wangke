@@ -36,62 +36,69 @@
                         <div class="layui-card">
                             <div class="layui-card-header">设置我的资料</div>
                             <div class="layui-card-body" pad15>
-
-                                <div class="layui-form" lay-filter="">
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">用户名</label>
-                                        <div class="layui-input-inline">
-                                            <input type="text" name="username" th:value="${account}" disabled
-                                                   class="layui-input">
+                                <form>
+                                    <div class="layui-form" lay-filter="">
+                                        <input type="hidden" name="id" th:value="${user.id}" disabled
+                                               class="layui-input">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">用户名</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="account" th:value="${account}" disabled
+                                                       class="layui-input">
+                                            </div>
+                                            <div class="layui-form-mid layui-word-aux">不可修改。一般用于后台登入名</div>
                                         </div>
-                                        <div class="layui-form-mid layui-word-aux">不可修改。一般用于后台登入名</div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">昵称</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="nickname" th:value="${user.nickname}"
+                                                       lay-verify="nickname" autocomplete="off" placeholder="请输入昵称"
+                                                       class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">头像</label>
+                                            <div class="layui-input-inline">
+                                                <input type="hidden" name="avatar_url" lay-verify="required"
+                                                       id="LAY_avatarSrc"
+                                                       placeholder="图片地址" th:value="${user.avatar_url}"
+                                                       class="layui-input">
+                                            </div>
+                                            <div class="layui-input-inline layui-btn-container" style="width: auto;">
+                                                <button type="button" class="layui-btn layui-btn-primary"
+                                                        id="LAY_avatarUpload">
+                                                    <i class="layui-icon">&#xe67c;</i>上传图片
+                                                </button>
+                                                <button type="button" class="layui-btn layui-btn-primary"
+                                                        layadmin-event="avartatPreview">
+                                                    查看图片
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">手机</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="phone" th:value="${user.phone}"
+                                                       lay-verify="phone" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">邮箱</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="email" th:value="${user.email}"
+                                                       lay-verify="email"
+                                                       autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认修改
+                                                </button>
+                                                <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">昵称</label>
-                                        <div class="layui-input-inline">
-                                            <input type="text" name="nickname" th:value="${user.nickname}"
-                                                   lay-verify="nickname" autocomplete="off" placeholder="请输入昵称"
-                                                   class="layui-input">
-                                        </div>
-                                    </div>
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">头像</label>
-                                        <div class="layui-input-inline">
-                                            <input type="hidden" name="avatar" lay-verify="required" id="LAY_avatarSrc"
-                                                   placeholder="图片地址" th:value="${user.avatar_url}" class="layui-input">
-                                        </div>
-                                        <div class="layui-input-inline layui-btn-container" style="width: auto;">
-                                            <button type="button" class="layui-btn layui-btn-primary"
-                                                    id="LAY_avatarUpload">
-                                                <i class="layui-icon">&#xe67c;</i>上传图片
-                                            </button>
-                                            <button class="layui-btn layui-btn-primary" layadmin-event="avartatPreview">
-                                                查看图片
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">手机</label>
-                                        <div class="layui-input-inline">
-                                            <input type="text" name="cellphone" th:value="${user.phone}"
-                                                   lay-verify="phone" autocomplete="off" class="layui-input">
-                                        </div>
-                                    </div>
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">邮箱</label>
-                                        <div class="layui-input-inline">
-                                            <input type="text" name="email" th:value="${user.email}" lay-verify="email"
-                                                   autocomplete="off" class="layui-input">
-                                        </div>
-                                    </div>
-                                    <div class="layui-form-item">
-                                        <div class="layui-input-block">
-                                            <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认修改</button>
-                                            <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -105,18 +112,22 @@
                         <div class="layui-card">
                             <div class="layui-card-header">修改密码</div>
                             <div class="layui-card-body" pad15>
-
-                                <div class="layui-form" lay-filter="">
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">当前密码</label>
-                                        <div class="layui-input-inline">
-                                            <input type="password" name="oldPassword" lay-verify="required"
-                                                   lay-verType="tips" class="layui-input">
+                                <form>
+                                    <div class="layui-form" lay-filter="">
+                                        <input type="hidden" name="account" th:value="${account}" disabled
+                                               class="layui-input">
+                                        <input type="hidden" name="id" th:value="${user.id}" disabled
+                                               class="layui-input">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">当前密码</label>
+                                            <div class="layui-input-inline">
+                                                <input type="password" name="oldPassword" lay-verify="required"
+                                                       lay-verType="tips" class="layui-input">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="layui-form-item">
-                                        <label class="layui-form-label">新密码</label>
-                                        <div class="layui-input-inline">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">新密码</label>
+                                            <div class="layui-input-inline">
                                             <input type="password" name="password" lay-verify="pass" lay-verType="tips"
                                                    autocomplete="off" id="LAY_password" class="layui-input">
                                         </div>
@@ -129,13 +140,15 @@
                                                    lay-verType="tips" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
-                                    <div class="layui-form-item">
-                                        <div class="layui-input-block">
-                                            <button class="layui-btn" lay-submit lay-filter="setmypass">确认修改</button>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <button class="layui-btn" lay-submit lay-filter="setmypass">确认修改
+                                                </button>
+                                                <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -162,9 +175,10 @@
                                     <div class="layui-form-item" th:if="${wallet.pay_type==0}">
                                         <label class="layui-form-label">查题余额</label>
                                         <div class="layui-input-inline">
-                                            <input type="text" name="tm_nums" th:value="${wallet.tm_nums}"
-                                                   class="layui-input" disabled>
+                                            <input type="text" name="account" th:value="${wallet.tm_nums}"
+                                                   class="layui-input">
                                         </div>
+                                        <div class="layui-form-mid layui-word-aux">非实时次数</div>
                                     </div>
                                     <div class="layui-form-item" th:if="${wallet.pay_type==1}">
                                         <label class="layui-form-label">包月生效</label>
@@ -263,7 +277,8 @@
                                 <td th:text="${order.real_price}"></td>
                                 <td class="hide-mm" th:text="${order.create_time}"></td>
                                 <td class="hide-mm" th:text="${order.last_time}"></td>
-                                <td><a class="layui-btn layui-btn-xs" th:href="@{'/pay/alipay/'+${order.id}} ">支付</a>
+                                <td><a class="layui-btn layui-btn-xs" th:href="@{'/pay/alipay/'+${order.id}} "
+                                       target="_blank">支付</a>
                                     <button class="layui-btn layui-btn-danger layui-btn-xs"
                                             th:onclick="cancel([[${order.id}]]);">取消
                                     </button>

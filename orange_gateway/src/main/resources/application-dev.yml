@@ -1,0 +1,14 @@
+server:
+  port: 9000
+
+#配置双注册中心
+eureka:
+  instance:
+    #自定义服务名称信息
+    instance-id: orange-gateway
+    #主机名
+    hostname: orangewangke.cn
+    appname: orange-gateway
+  client:
+    serviceUrl:
+      defaultZone: http://admin:1950661299orange.com@slave.eureka.com:8002/eureka/,http://admin:1950661299orange.com@master.eureka.com:8002/eureka/

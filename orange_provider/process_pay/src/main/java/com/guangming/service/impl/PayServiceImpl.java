@@ -202,10 +202,10 @@ public class PayServiceImpl implements IPayService {
 
     //同步通知
     @Override
-    public Result returnNotice(HttpServletRequest request) {
+    public String returnNotice(HttpServletRequest request) {
         log.info("支付成功, 进入同步通知接口...");
         //获取支付宝GET过来反馈信息
-        Map<String, String> params = payNotice(request);
+//        Map<String, String> params = payNotice(request);
         //商户订单号
         String out_trade_no = new String(request.getParameter("out_trade_no").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
 
@@ -221,8 +221,10 @@ public class PayServiceImpl implements IPayService {
         log.info("* 支付宝交易号: {}", trade_no);
         log.info("* 实付金额: {}", total_amount);
         log.info("***************************************************************");//            mv.addObject("productName", product.getName());
-
-        return Result.build(ResultEnum.PAY_SUCCESS, params);
+        return "<form name=\"_form\" method=\"get\" action=\"https://www.linignan.cn/shop/order/" + out_trade_no + "\">\n" +
+                "<input type=\"submit\" value=\"查询订单状态\" style=\"display:none\" >\n" +
+                "</form>\n" +
+                "<script>document.forms[0].submit();</script>";
     }
 
     private Map<String, String> payNotice(HttpServletRequest request) {
@@ -253,7 +255,7 @@ public class PayServiceImpl implements IPayService {
             Map<String, String> params = payNotice(request);
             System.out.println(params.toString());
             //调用SDK验证签名
-            boolean signVerified = AlipaySignature.rsaCertCheckV1(params, AlipayConfig.path + AlipayConfig.alipay_cert_path, AlipayConfig.charset, AlipayConfig.sign_type);
+            boolean signVerified = AlipaySignature.rsaCertCheckV1(params, AlipayConfig.alipay_cert_path, AlipayConfig.charset, AlipayConfig.sign_type);
             /* 实际验证过程建议商户务必添加以下校验：
             1、需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
             2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
@@ -326,9 +328,9 @@ public class PayServiceImpl implements IPayService {
             certAlipayRequest.setCharset(AlipayConfig.charset);
             certAlipayRequest.setSignType(AlipayConfig.sign_type);
             certAlipayRequest.setPrivateKey(AlipayConfig.merchant_private_key);
-            certAlipayRequest.setCertPath(AlipayConfig.path + AlipayConfig.app_cert_path);
-            certAlipayRequest.setAlipayPublicCertPath(AlipayConfig.path + AlipayConfig.alipay_cert_path);
-            certAlipayRequest.setRootCertPath(AlipayConfig.path + AlipayConfig.alipay_root_cert_path);
+            certAlipayRequest.setCertPath(AlipayConfig.app_cert_path);
+            certAlipayRequest.setAlipayPublicCertPath(AlipayConfig.alipay_cert_path);
+            certAlipayRequest.setRootCertPath(AlipayConfig.alipay_root_cert_path);
             DefaultAlipayClient alipayClient = new DefaultAlipayClient(certAlipayRequest);
             // AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipaydev.com/gateway.do","2016102900776579",AlipayConfig.merchant_private_key,"json","utf-8",AlipayConfig.alipay_public_key,"RSA2");
 
@@ -374,6 +376,7 @@ public class PayServiceImpl implements IPayService {
             log.info("支付宝订单创建成功");
             return alipayClient.pageExecute(request).getBody();
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("支付宝订单创建异常：" + e.getMessage());
             return null;
         }
@@ -512,6 +515,16 @@ public class PayServiceImpl implements IPayService {
         } catch (Exception e) {
             log.error("订单修改异常：" + e.getMessage());
             return Result.build(ResultEnum.ORDER_CANCEL_FAIL);
+        }
+    }
+
+    @Override
+    public Result updateWallet(Wallet wallet) {
+        try {
+            walletMapper.update(wallet);
+            return Result.build(ResultEnum.UPDATE_SUCCESS);
+        } catch (Exception e) {
+            return Result.build(ResultEnum.UPDATE_ERROR);
         }
     }
 }

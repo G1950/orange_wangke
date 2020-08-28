@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public class Result implements Serializable {
 
-    // 响应业务状态
+    // 响应业务状态码
     private Integer code;
 
     // 响应消息
@@ -33,13 +33,34 @@ public class Result implements Serializable {
     }
 
     public static Result build(ResultEnum enums) {
-        return new Result(enums, null);
+        return new Result(enums);
     }
+
+    public static Result build(Integer code, String msg) {
+        return new Result(code, msg);
+    }
+
 
     public Result(ResultEnum enums, Object data) {
         this.code = enums.getCode();
         this.msg = enums.getMessage();
         this.data = data;
+    }
+
+    public Result(ResultEnum enums) {
+        this.code = enums.getCode();
+        this.msg = enums.getMessage();
+    }
+
+    public Result(Integer code, String msg, Object data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
+
+    public Result(Integer code, String msg) {
+        this.code = code;
+        this.msg = msg;
     }
 
     public Integer getCode() {

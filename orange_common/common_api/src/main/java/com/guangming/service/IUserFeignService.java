@@ -22,7 +22,7 @@ public interface IUserFeignService {
 
     //修改用户
     @PutMapping("user/info")
-    Result update(User user);
+    Result update(@RequestBody User user);
 
 
     //删除用户
@@ -32,15 +32,15 @@ public interface IUserFeignService {
 
     //添加权限用户,用户注册第一步
     @PostMapping("user/auth")
-    Result save(Authority authority);
+    Result save(@RequestBody Authority authority);
 
     //修改权限用户
     @PutMapping("user/auth")
-    Result update(Authority authority);
+    Result update(@RequestBody Authority authority);
 
     //查询权限用户
-    @GetMapping("user/auth")
-    Result query(Authority authority);
+    @PostMapping("user/auths")
+    Result query(@RequestBody Authority authority);
 
     //根据account,password查询
     @PostMapping("user")

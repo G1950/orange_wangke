@@ -4,8 +4,6 @@ eureka:
       enabled: true
   instance:
     instance-id: orange-provider-pay   #自定义服务名称信息
-    prefer-ip-address: true     #访问路径可以显示IP地址
-
 server:
   servlet:
     encoding:
@@ -58,7 +56,7 @@ spring:
   resources:
     add-mappings: false
   profiles:
-    active: dev
+    active: pro
 app:
   id: SampleApp
 apollo:

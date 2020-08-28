@@ -2,6 +2,7 @@ package com.guangming.service;
 
 import com.guangming.configbeans.FeignConfig;
 import com.guangming.pojo.Orders;
+import com.guangming.pojo.Wallet;
 import com.guangming.service.impl.IUserFeignServiceImpl;
 import com.guangming.utils.Result;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -54,4 +55,8 @@ public interface IPayFeignService {
     //查询钱包信息，用户Id
     @GetMapping("/wallet/{userId}/info")
     Result getWalletInfo(@PathVariable("userId") String userId);
+
+
+    @PutMapping("/wallet")
+    Result updateWallet(@RequestBody Wallet wallet);
 }

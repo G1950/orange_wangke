@@ -3,7 +3,6 @@ eureka:
     serviceUrl:
       defaultZone: http://admin:1950661299orange.com@master.orangewangke.cn:8001/eureka/,http://admin:1950661299orange.com@slave.orangewangke.cn:8001/eureka/
   instance:
-    instance-id: orange-provider-solr-01    #自定义服务名称信息
     hostname: 39.100.123.7
 server:
-  port: 8003
+  port: 8002

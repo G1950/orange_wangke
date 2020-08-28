@@ -9,7 +9,8 @@ import java.util.List;
 public interface IAuthorityService {
 
     //添加权限用户
-    Result save(Authority authority);
+    Result save(Authority authority) throws Exception;
+
     //修改权限用户
     Result update(Authority authority);
 

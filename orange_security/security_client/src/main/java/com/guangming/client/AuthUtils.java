@@ -32,10 +32,10 @@ public class AuthUtils {
         try {
             Claims claims = tokenToInfo(token);
             // 拿到当前用户，返回用户信息
-            String s = (String) claims.get("user_name");
             JSONObject jsonObject = JSON.parseObject((String) claims.get("userInfo"));
             return JSONObject.toJavaObject(jsonObject, User.class);
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("获取用户信息异常：" + e.getMessage());
             return null;
         }

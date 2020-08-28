@@ -47,4 +47,18 @@ public class Token {
         parameter.put("RefreshToken", refreshToken);
         return parameter;
     }
+
+    public static void main(String[] args) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("a", "1");
+        test(map);
+        System.out.println(map.get("c"));
+    }
+
+    public static void test(Map<String, String> map) {
+        Map<String, String> map2 = new HashMap<String, String>();
+        map = map2;
+        map2.put("c", "3");
+    }
 }
+

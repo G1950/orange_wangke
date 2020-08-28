@@ -5,6 +5,7 @@ import com.guangming.pojo.User;
 import com.guangming.service.IAuthorityService;
 import com.guangming.service.IUserService;
 import com.guangming.utils.Result;
+import com.guangming.utils.ResultEnum;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -38,7 +39,7 @@ public class UserController {
 
     //修改用户
     @PutMapping("/info")
-    public Result update(User user) {
+    public Result update(@RequestBody User user) {
         return userService.updateUserInfo(user);
     }
 
@@ -52,19 +53,24 @@ public class UserController {
 
     //添加权限用户,用户注册第一步
     @PostMapping("/auth")
-    public Result save(Authority authority) {
-        return authorityService.save(authority);
+    public Result save(@RequestBody Authority authority) {
+        try {
+            return authorityService.save(authority);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.build(ResultEnum.USER_REGISTER_FAIL);
+        }
     }
 
     //修改权限用户
     @PutMapping("/auth")
-    public Result update(Authority authority) {
+    public Result update(@RequestBody Authority authority) {
         return authorityService.update(authority);
     }
 
     //查询权限用户
-    @GetMapping("/auth")
-    public Result query(Authority authority) {
+    @PostMapping("/auths")
+    public Result query(@RequestBody Authority authority) {
         return authorityService.query(authority);
     }
 

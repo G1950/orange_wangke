@@ -1,2 +1,8 @@
 server:
-  port: 8000
+  port: 9000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://admin:1950661299orange.com@master.orangewangke.cn:8001/eureka/,http://admin:1950661299orange.com@slave.orangewangke.cn:8001/eureka/
+  instance:
+    hostname: 39.101.162.9

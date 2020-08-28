@@ -1,6 +1,7 @@
 package com.guangming.service.impl;
 
 import com.guangming.pojo.Orders;
+import com.guangming.pojo.Wallet;
 import com.guangming.service.IPayFeignService;
 import com.guangming.utils.Result;
 import com.guangming.utils.ResultEnum;
@@ -71,6 +72,11 @@ public class IPayFeignServiceImpl implements FallbackFactory<IPayFeignService> {
 
             @Override
             public Result getWalletInfo(String userId) {
+                return Result.build(ResultEnum.SYS_ERROR);
+            }
+
+            @Override
+            public Result updateWallet(Wallet wallet) {
                 return Result.build(ResultEnum.SYS_ERROR);
             }
         };

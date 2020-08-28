@@ -15,6 +15,7 @@ import java.util.List;
 public class IUserFeignServiceImpl implements FallbackFactory<IUserFeignService> {
     @Override
     public IUserFeignService create(Throwable throwable) {
+        throwable.printStackTrace();
         return new IUserFeignService() {
             @Override
             public Result save(User user) {

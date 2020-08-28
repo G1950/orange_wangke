@@ -1,6 +1,7 @@
 package com.guangming.service;
 
 import com.guangming.pojo.Orders;
+import com.guangming.pojo.Wallet;
 import com.guangming.utils.Result;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ public interface IPayService {
     Result deleteByUserIdOrderId(String userId, String orderId);
 
     //支付宝同步通知
-    Result returnNotice(HttpServletRequest request);
+    String returnNotice(HttpServletRequest request);
 
     //支付宝异步通知
     String notifyNotice(HttpServletRequest request);
@@ -40,4 +41,6 @@ public interface IPayService {
     Result queryWalletByUserId(String userId);
 
     Result cancelOrder(String id);
+
+    Result updateWallet(Wallet wallet);
 }

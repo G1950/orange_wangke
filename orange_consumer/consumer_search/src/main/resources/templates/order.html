@@ -48,7 +48,8 @@
 
                                     <!-- 右侧 -->
                                     <div class="content-right">
-                                        <div class="title"><span th:text="${userId}"></span>订单确认</div>
+                                        <div class="title" th:if="${userId==null && order.status==1}">订单支付成功</div>
+                                        <div class="title" th:if="${userId!=null && order.status==0}">订单确认</div>
                                         <div class="content">
                                             <table class="layui-table">
                                                 <thead>
@@ -70,14 +71,18 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-                                            <!--                                            <div class="content-box">-->
-                                            <!--                                                <div class="content-key">-->
-                                            <!--                                                <button type="submit" id="ajax_key">确认支付</button>-->
-                                            <!--                                                <button type="submit" id="ajax_cancel">取消订单</button>-->
-                                            <!--                                                </div>-->
-                                            <!--                                            </div>-->
-                                            <div id="tips" style="text-align: center">
-                                                <a th:href="@{'/shop/alipay/'+${order.id}}">
+
+                                            <div id="tips" style="text-align: center"
+                                                 th:if="${userId==null && order.status==1}">
+                                                <a th:href="@{/}">
+                                                    <button type="button" class="layui-btn layui-btn-radius">
+                                                        返回查题首页
+                                                    </button>
+                                                </a>
+                                            </div>
+                                            <div id="tips" style="text-align: center"
+                                                 th:if="${userId!=null && order.status==0}">
+                                                <a th:href="@{'/shop/alipay/'+${order.id}}" target="_blank">
                                                     <button type="button" class="layui-btn layui-btn-radius"
                                                             id="ajax_key">
                                                         确认支付

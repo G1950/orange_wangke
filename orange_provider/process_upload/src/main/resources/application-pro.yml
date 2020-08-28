@@ -1,9 +1,8 @@
 eureka:
-  instance:
-    hostname: 39.100.123.7
   client:
     serviceUrl:
       defaultZone: http://admin:1950661299orange.com@master.orangewangke.cn:8001/eureka/,http://admin:1950661299orange.com@slave.orangewangke.cn:8001/eureka/
-
+  instance:
+    hostname: 39.101.162.9
 server:
-  port: 8006
+  port: 8007

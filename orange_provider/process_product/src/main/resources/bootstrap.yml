@@ -2,18 +2,13 @@ eureka:
   client:
     healthcheck:
       enabled: true
-    serviceUrl:
-        defaultZone: http://admin:1950661299orange.com@master.eureka.com:8001/eureka/,http://admin:1950661299orange.com@slave1.eureka.com:8002/eureka/
-
   instance:
     instance-id: orange-provider-product   #自定义服务名称信息
-    prefer-ip-address: true     #访问路径可以显示IP地址
 
 server:
   servlet:
     encoding:
       force: true
-  port: 8004
 spring:
   application:
     name: orange-provider-product
@@ -59,7 +54,7 @@ spring:
   resources:
     add-mappings: false
   profiles:
-    active: dev
+    active: pro
 app:
   id: SampleApp
 apollo:

@@ -25,6 +25,7 @@ public class Token {
         OAuth2AccessToken tokenBody = token.getBody();
         if (tokenBody != null) {
              access_token = tokenBody.getValue();
+            System.out.println(access_token);
             if (access_token == null || access_token.isEmpty())
                 throw new AccessDeniedException("请检查账号密码");
             if (access_token.contains("401")) {
@@ -34,6 +35,7 @@ public class Token {
                 throw new RuntimeException("服务器繁忙，请稍后重试");
             }
             User user = AuthUtils.getUser(access_token);
+            System.out.println(user.getNickname());
             if (user == null) {
                 throw new RuntimeException("服务器繁忙，请稍后重试");
             }

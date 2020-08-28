@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class BeforeFilter extends OncePerRequestFilter {
@@ -31,7 +32,6 @@ public class BeforeFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String uri = request.getRequestURI();
-
         //判断是否有token
         String access_token = (String) request.getSession().getAttribute("Authorization");
         String refreshToken = (String) request.getSession().getAttribute("RefreshToken");
@@ -45,16 +45,18 @@ public class BeforeFilter extends OncePerRequestFilter {
         }
         //判断白名单
         if (UrlUtils(uri)) {
+            System.out.println("------免认证-----" + uri);
             filterChain.doFilter(request, response);
         } else {
-
+            System.out.println("------认证-----" + uri);
+            System.out.println("-----token----" + access_token);
             if ((uri.equals("/search/cx") || uri.contains("/tm/index/")) && (access_token == null || !access_token.startsWith("Bearer"))) {
                 String ip = IpUtils.getIpAddr(request);
                 //判断redis是否存在数据
                 Integer integer = redisTemplate.opsForValue().get(("ip:" + ip));
                 if (integer == null && uri.equals("/search/cx"))  //不存在数据
                 {
-                    redisTemplate.opsForValue().set(("ip:" + ip), 20);
+                    redisTemplate.opsForValue().set(("ip:" + ip), 20, 1, TimeUnit.DAYS);
                     filterChain.doFilter(request, response);
                 } else if (integer != null && integer == 0 && uri.equals("/search/cx")) {
                     response.setContentType("application/json;charset=UTF-8");
@@ -114,7 +116,7 @@ public class BeforeFilter extends OncePerRequestFilter {
 
         @Override
         public String getHeader(String name) {
-            log.info("getHeader --->{}", name);
+//            log.info("getHeader --->{}", name);
             String headerValue = super.getHeader(name);
             if (headerMap.containsKey(name)) {
                 headerValue = headerMap.get(name);
@@ -134,11 +136,11 @@ public class BeforeFilter extends OncePerRequestFilter {
 
         @Override
         public Enumeration<String> getHeaders(String name) {
-            log.info("getHeaders --->>>>>>{}", name);
+//            log.info("getHeaders --->>>>>>{}", name);
             List<String> values = Collections.list(super.getHeaders(name));
-            log.info("getHeaders --->>>>>>{}", values);
+//            log.info("getHeaders --->>>>>>{}", values);
             if (headerMap.containsKey(name)) {
-                log.info("getHeaders --->{}", headerMap.get(name));
+//                log.info("getHeaders --->{}", headerMap.get(name));
                 values = Collections.singletonList(headerMap.get(name));
             }
             return Collections.enumeration(values);

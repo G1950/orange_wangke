@@ -29,20 +29,20 @@
 
             <div class="layui-form-item">
                 <label class="layadmin-user-login-icon layui-icon layui-icon-username"></label>
-                <input type="text" name="account" id="regId" lay-verify="required|regId" placeholder="手机号|邮箱"
+                <input type="text" name="authority_account" id="regId" lay-verify="required|regId" placeholder="账号"
                        class="layui-input">
             </div>
-            <div class="layui-form-item">
-                <label class="layadmin-user-login-icon layui-icon layui-icon-username"></label>
-                <input type="text" name="nickname" id="regName" lay-verify="required|regName" placeholder="昵称"
-                       class="layui-input">
-            </div>
+            <!--            <div class="layui-form-item">-->
+            <!--                <label class="layadmin-user-login-icon layui-icon layui-icon-username"></label>-->
+            <!--                <input type="text" name="nickname" id="regName" lay-verify="required|regName" placeholder="昵称"-->
+            <!--                       class="layui-input">-->
+            <!--            </div>-->
             <div class="layui-form-item">
                 <div class="layui-row">
                     <div class="layui-col-xs6">
                         <label class="layadmin-user-login-icon layui-icon layui-icon-password"
                                for="LAY-user-login-password"></label>
-                        <input type="password" name="password" id="regPassword" lay-verify="required|pass"
+                        <input type="password" name="authority_pass" id="regPassword" lay-verify="required|pass"
                                placeholder="密码" class="layui-input" readonly onfocus="this.removeAttribute('readonly')">
                     </div>
                     <div class="layui-col-xs6">
@@ -73,7 +73,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <input type="checkbox" name="agreement" lay-skin="primary" title="同意用户协议" checked>
+                <input type="checkbox" name="agreement" lay-skin="primary" lay-verify="required" title="同意用户协议" checked>
             </div>
             <div class="layui-form-item">
                 <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="user-reg-submit">注 册</button>
@@ -106,16 +106,31 @@
             , search = router.search;
 
         form.render();
-
         //自定义验证规则
         form.verify({
-            account: function (value) {
+            regId: function (id) {
+                $.ajax({
+                    url: "/user?account=" + id,
+                    type: "get",
+                    dataType: 'json',
+                    success: function (res) {
+                        console.log(res);
+                        if (res.code === 206 || res.code === 0) {
+                            layer.msg(res.msg, {icon: 2, shade: [0.5, '#000000'], shadeClose: true, time: 1000});
+                            $("#regId").val("");
+                            $("#regId").focus();
+                            return false;
+                        }
+                    }
+                });
             }
-            , nickname: ""
+            , nickname: function (t, i) {
+                return new RegExp("^[a-zA-Z0-9_一-龥\\s·]+$").test(t) ? /(^\_)|(\__)|(\_+$)/.test(t) ? "昵称首尾不能出现下划线'_'" : /^\d+\d+\d$/.test(t) ? "昵称不能全为数字" : void 0 : "昵称不能有特殊字符"
+            }
             , regMailbox: [/^[a-z0-9._%-]+@([a-z0-9-]+\.)+[a-z]{2,4}$|^1[3|4|5|7|8]\d{9}$/, '邮箱格式不对']
             // ,regPassword: [/^(?=.*[0-9])(?=.*[a-zA-Z])(.{6,12})$/, '密码必须6到12位必须包含数字且区分大小写']
             , repass: function (value) {
-                const passwordValue = $('input[name=password]').val();
+                const passwordValue = $('input[name=authority_pass]').val();
                 if (value !== passwordValue) {
                     return '两次输入的密码不一致!';
                 }
@@ -123,56 +138,36 @@
         });
 
         $("#regId").blur(function () {
-            const Id = $("#regId").val();
-            $.ajax({
-                url: "/users/",
-                type: "get",
-                data: {account: Id},
-                dataType: 'json',
-                success: function (res) {
-                    console.log(res);
-                    if (res.status != 200) {
-                        layer.msg('用户编号已存在！', {icon: 2, shade: [0.5, '#000000'], shadeClose: true, time: 1000});
-                        $("#regId").val("");
-                        $("#regId").focus();
-                        return false;
-                    }
-                }
-            });
         });
 
         $("#code").click(function () {
-            $(this).attr("src", "/captcha?v=" + Math.round(Math.random()*10));
+            $(this).attr("src", "/captcha?v=" + Math.round(Math.random() * 10));
         });
         //监听提交
         form.on('submit(user-reg-submit)', function (data) {
 
             $.ajax({
-                url: "/register",
+                url: "/register?code=" + $("#login-vercode").val(),
                 type: "post",
-                data: data.field,
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(data.field),
                 dataType: "json",
                 success: function (data) {
-                    if (data.status == -1) {
-                        layer.msg('验证码错误', {icon: 5, shade: [0.5, '#000000'], shadeClose: true, time: 2000});
+                    if (data.code !== 1) {
+                        layer.msg(data.msg, {icon: 5, shade: [0.5, '#000000'], shadeClose: true, time: 1000});
                         return false;
                     }
-                    if (data.msg == '2') {
-                        layer.msg('未选择同意用户协议', {icon: 5, shade: [0.5, '#000000'], shadeClose: true, time: 2000});
-                        return false;
-                    }
-                    if (data.status == 200) {
-                        layer.msg("注册成功,即将跳转登陆", {
+                    if (data.code === 1) {
+                        layer.msg(data.msg, {
                             icon: 1,
                             shade: [0.5, '#000000'],
                             shadeClose: true,
-                            time: 2000
+                            time: 1000
                         }, function () {
-                            location.href = "/sign";
+                            location.href = "/login"
                         });
-                    } else {
-                        layer.msg('注册失败', {icon: 5, shade: [0.5, '#000000'], shadeClose: true, time: 2000});
                     }
+                    $(this).attr("src", "/captcha?v=" + Math.round(Math.random() * 10));
                 }
             });
             return false;
